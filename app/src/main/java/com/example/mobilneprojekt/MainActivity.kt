@@ -10,3 +10,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 }
+
+
+    //Z mojej strony to tyle - Andrzej
+
