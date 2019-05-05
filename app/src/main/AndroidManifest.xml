@@ -16,7 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ListOfCars" >
+        <activity android:name=".FilterActivity">
+        </activity>
+        <activity android:name=".ListOfCars">
         </activity>
     </application>
 

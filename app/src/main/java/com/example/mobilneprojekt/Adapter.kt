@@ -42,7 +42,7 @@ class Adapter(values: List<CarsInfo>): RecyclerView.Adapter<Adapter.ViewHolder>(
         }
     }
 
-    fun update(results: ArrayList<CarsInfo>) {
+    fun update(results: List<CarsInfo>) {
         values = results
         notifyDataSetChanged()
     }

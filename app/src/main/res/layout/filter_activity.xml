@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+                android:text="Kategoria pojazdu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <CheckBox
+                    android:text="A"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/typeA" android:layout_weight="1"
+                    android:checked="true"/>
+            <CheckBox
+                    android:text="B"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/typeB" android:layout_weight="1"
+                    android:checked="true"/>
+            <CheckBox
+                    android:text="C"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/typeC" android:layout_weight="1"
+                    android:checked="true"/>
+            <CheckBox
+                    android:text="D"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/typeD" android:layout_weight="1"
+                    android:checked="true"/>
+        </LinearLayout>
+        <TextView
+                android:text="Liczba miejsc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView2"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <CheckBox
+                    android:text="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/size2" android:layout_weight="1"
+                    android:checked="true"/>
+            <CheckBox
+                    android:text="4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/size4" android:layout_weight="1"
+                    android:checked="true"/>
+            <CheckBox
+                    android:text="5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/size5" android:layout_weight="1"
+                    android:checked="true"/>
+            <CheckBox
+                    android:text="7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/size7" android:layout_weight="1"
+                    android:checked="true"/>
+            <CheckBox
+                    android:text="9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/size9" android:layout_weight="1"
+                    android:checked="true"/>
+            <CheckBox
+                    android:text="22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/size22" android:layout_weight="1"
+                    android:checked="true"/>
+        </LinearLayout>
+        <TextView
+                android:text="Liczba miejsc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView3"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/min" android:layout_weight="1" android:hint="od"/>
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/max" android:layout_weight="1" android:hint="do"/>
+        </LinearLayout>
+        <Button
+                android:text="zastosuj"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/button" android:onClick="onClick"/>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
