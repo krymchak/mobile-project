@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 
 data class HistoryItem (
     var id: Int,
+    var userID: Int,
     var info: CarsInfo,
     var date: String,
     var startTime: String,
