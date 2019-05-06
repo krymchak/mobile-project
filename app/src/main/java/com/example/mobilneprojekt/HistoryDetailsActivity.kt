@@ -18,7 +18,7 @@ class HistoryDetailsActivity: AppCompatActivity() {
             //get item from DB by ID.toInt()
 
             val c = LatLng(51.109687, 17.058089)
-            val item = (HistoryItem(0, CarsInfo("CarName", "C", 12F), "12.12.12", "15:30",
+            val item = (HistoryItem(0,0, CarsInfo("CarName", "C", 12F), "12.12.12", "15:30",
                 "15:42", R.drawable.ic_launcher_background,  c, c,  "12H:12M:12S"))
 
             showItem(item)
