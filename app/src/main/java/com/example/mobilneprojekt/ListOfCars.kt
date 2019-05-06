@@ -106,15 +106,6 @@ class ListOfCars : AppCompatActivity() {
         val minPrice = data.getIntExtra("minPrice",0)
         val maxPrice = data.getIntExtra("maxPrice",0)
         filterList(minPrice,maxPrice)
-        /*if (data == null) {
-
-            return
-        }
-        val tytul = data.getStringExtra("tytul")
-        val type = data.getStringExtra("typ")
-        val time = data.getIntExtra("timer",0)
-        val priority = data.getIntExtra("pryorytet",0)
-        addTask(tytul, time, type, priority)*/
 
 
 
