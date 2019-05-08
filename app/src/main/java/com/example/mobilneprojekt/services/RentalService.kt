@@ -11,7 +11,6 @@ interface RentalService {
 
     @GET("sec/history")
     fun getHistory(): Call<List<HistoryEntryDTO>>
-    
 }
 
 data class CarDTO(val id: Int, val name: String, val year: String, val dmc: Int, val seats: Int, val mileage: Int, val category: String, val image: String)
