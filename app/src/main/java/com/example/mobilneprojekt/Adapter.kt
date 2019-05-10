@@ -5,19 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.mobilneprojekt.services.CarDTO
 
-class Adapter(values: List<CarsInfo>): RecyclerView.Adapter<Adapter.ViewHolder>()
+class Adapter(values: List<CarDTO>): RecyclerView.Adapter<Adapter.ViewHolder>()
 {
-    var values: List<CarsInfo>
+    var values: List<CarDTO>
 
     init
     {
         this.values = values
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = values[position].getName()
-        holder.type.text = values[position].getType()
-        holder.price.text = values[position].getPrice().toString() + "$"
+        holder.name.text = values[position].name
+        holder.type.text = values[position].category
+        //holder.price.text = values[position].getPrice().toString() + "$"
+        holder.price.text = "0$"
     }
 
     override fun getItemCount(): Int {
@@ -42,44 +44,8 @@ class Adapter(values: List<CarsInfo>): RecyclerView.Adapter<Adapter.ViewHolder>(
         }
     }
 
-    fun update(results: List<CarsInfo>) {
+    fun update(results: List<CarDTO>) {
         values = results
         notifyDataSetChanged()
     }
 }
-    /*var listOfCars: ArrayList<String> = ArrayList<String>()
-    private val mContext: Context
-
-    init
-    {
-        mContext=context
-        listOfCars=list
-    }
-    override fun getCount(): Int
-    {
-        return listOfCars.size
-    }
-
-    override fun getItemId(position: Int): Long
-    {
-        return position.toLong()
-    }
-
-    override fun getItem(position: Int): Any
-    {
-        return "Test"
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View
-    {
-        val layout = LayoutInflater.from(mContext)
-        val row = layout.inflate(R.layout.row, parent, false)
-        row.findViewById<TextView>(R.id.textView).text=listOfCars[position]
-
-        return row
-    }
-
-    fun updateResults(results: ArrayList<String>) {
-        listOfCars = results
-        notifyDataSetChanged()
-    }*/

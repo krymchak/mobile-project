@@ -6,20 +6,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:layout_weight="15">
-            <Button
-                    android:text="Filtruj"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:id="@+id/filter" android:layout_weight="1"
-                    android:onClick="filter"/>
-            <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:id="@+id/spinner" android:layout_weight="1" android:background="#d4d4d6" android:layout_margin="5dp" android:textAlignment="center"
-                    android:entries="@array/typeOfSort"/>
-        </LinearLayout>
         <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" android:id="@+id/list"

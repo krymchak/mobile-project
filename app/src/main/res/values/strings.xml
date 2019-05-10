@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Mobilne projekt</string>
-    <string-array name="typeOfSort">
-        <item>Według odleglosci</item>
-        <item>Według ceny (od najniższej)</item>
-        <item>Według ceny (od najwyższej)</item>
+    <string-array name="seats">
+        <item>2</item>
+        <item>4</item>
+        <item>5</item>
+        <item>7</item>
+        <item>9</item>
+        <item>22</item>
+        <item>40</item>
     </string-array>
 </resources>
