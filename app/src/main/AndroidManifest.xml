@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".FilterActivity">
         </activity>
-
+        <activity android:name=".DetailInfoCarActivity"/>
 
         <activity android:name=".HistoryListActivity" />
         <activity android:name=".HistoryDetailsActivity"/>

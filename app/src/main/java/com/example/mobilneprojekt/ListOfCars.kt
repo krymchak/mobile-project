@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.list_of_cars.*
 
 
 
-class ListOfCars : AppCompatActivity() {
+class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
     var listOfCars = ArrayList<CarDTO>()
     var filterListOfCars = ArrayList<CarDTO>()
@@ -37,8 +37,20 @@ class ListOfCars : AppCompatActivity() {
         filterListOfCars = listOfCars.clone() as ArrayList<CarDTO>
         val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = Adapter(filterListOfCars)
+        adapter = Adapter(filterListOfCars,this)
         recyclerView.setAdapter(adapter)
+
+    }
+
+    override fun onItemClick(position: Int) {
+        val intent = Intent(this, DetailInfoCarActivity::class.java)
+        intent.putExtra("name", filterListOfCars[position].name)
+        intent.putExtra("category", filterListOfCars[position].category)
+        intent.putExtra("year", filterListOfCars[position].year)
+        intent.putExtra("seats", filterListOfCars[position].seats.toString())
+        intent.putExtra("dmc", filterListOfCars[position].dmc.toString())
+        intent.putExtra("mileage", filterListOfCars[position].mileage.toString())
+        startActivity(intent)
     }
 
     private fun sortByPriceFromBiggest() {
