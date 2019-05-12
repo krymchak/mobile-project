@@ -18,9 +18,9 @@ interface RentalService {
 
     @POST("sec/return")
     fun returnCar(@Header("Authorization") token: String, @Body carId: CarIdDTO): Call<Void>
-    
+
 }
 
-data class CarDTO(val id: Int, val name: String, val year: String, val dmc: Int, val seats: Int, val mileage: Int, val category: String, val image: String)
-data class HistoryEntryDTO(val date: String, val id: Int, val name: String, val year: String, val dmc: Int, val seats: Int, val mileage: Int, val category: String, val image: String)
+data class CarDTO(val id: Int, val name: String, val year: String, val dmc: Int, val seats: Int, val mileage: Int, val category: String, val image: String, val owner: String, val price: Float, val security: Float)
+data class HistoryEntryDTO(val date: String, val id: Int, val name: String, val year: String, val dmc: Int, val seats: Int, val mileage: Int, val category: String, val image: String, val owner: String, val price: Float, val security: Float)
 data class CarIdDTO(val carId: Int)
