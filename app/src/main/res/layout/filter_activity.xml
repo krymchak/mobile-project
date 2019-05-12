@@ -38,46 +38,22 @@
                     android:checked="true"/>
         </LinearLayout>
         <TextView
-                android:text="Liczba miejsc"
+                android:text="Minimalna liczba miejsc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView2"/>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <CheckBox
-                    android:text="2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/size2" android:layout_weight="1"
-                    android:checked="true"/>
-            <CheckBox
-                    android:text="4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/size4" android:layout_weight="1"
-                    android:checked="true"/>
-            <CheckBox
-                    android:text="5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/size5" android:layout_weight="1"
-                    android:checked="true"/>
-            <CheckBox
-                    android:text="7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/size7" android:layout_weight="1"
-                    android:checked="true"/>
-            <CheckBox
-                    android:text="9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/size9" android:layout_weight="1"
-                    android:checked="true"/>
-            <CheckBox
-                    android:text="22"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/size22" android:layout_weight="1"
-                    android:checked="true"/>
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/spinner" android:layout_weight="1" android:entries="@array/seats"/>
+            <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_weight="1"/>
         </LinearLayout>
         <TextView
-                android:text="Liczba miejsc"
+                android:text="@string/common_google_play_services_enable_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView3"/>
         <LinearLayout

@@ -18,7 +18,7 @@
             <meta-data android:name="com.google.android.geo.API_KEY"
                        android:value="@string/map_key"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".ListOfCars">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -27,8 +27,8 @@
         </activity>
         <activity android:name=".FilterActivity">
         </activity>
-        <activity android:name=".ListOfCars">
-        </activity>
+        <activity android:name=".DetailInfoCarActivity"/>
+
         <activity android:name=".HistoryListActivity" />
         <activity android:name=".HistoryDetailsActivity"/>
     </application>

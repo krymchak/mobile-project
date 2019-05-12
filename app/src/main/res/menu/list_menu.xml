@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Sortowac po cene rosnąco" android:id="@+id/sortByPriceFromSmallest"/>
+    <item android:title="Sortowac po cene malejąco" android:id="@+id/sortByPriceFromBiggest"/>
+    <item android:title="Filtrowac" android:id="@+id/Filter"/>
+</menu>
