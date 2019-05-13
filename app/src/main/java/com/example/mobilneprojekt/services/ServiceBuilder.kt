@@ -23,4 +23,7 @@ object ServiceBuilder {
     fun getRentalService(): RentalService {
         return rentalService
     }
+    fun getUrl(): String {
+        return "https://mobilne-projekt.herokuapp.com/"
+    }
 }
