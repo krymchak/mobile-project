@@ -22,7 +22,7 @@ class Adapter(values: List<CarDTO>, clickListener: ClickListener): RecyclerView.
         holder.name.text = values[position].name
         holder.type.text = values[position].category
         //holder.price.text = values[position].getPrice().toString() + "$"
-        holder.price.text = "0$"
+        holder.price.text = values[position].price.toString()
     }
 
     override fun getItemCount(): Int {

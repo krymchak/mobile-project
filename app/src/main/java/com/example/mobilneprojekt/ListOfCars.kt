@@ -15,7 +15,9 @@ import android.widget.Toast
 import com.example.mobilneprojekt.services.CarDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import kotlinx.android.synthetic.main.list_of_cars.*
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
@@ -29,16 +31,30 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_cars)
 
-        //ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NTc0OTgwNTUsImV4cCI6MTU1NzU4NDQ1NX0.TtGb0K66TnLp8JgvSJE1ahA-RChIlNobJd4vtbTt29I")
-        listOfCars.add(CarDTO(1, "pojazd 1", "2018", 2000, 5, 3000, "B", ""))
-        listOfCars.add(CarDTO(2, "pojazd 2", "2008", 3499, 4, 3000, "B", ""))
-        listOfCars.add(CarDTO(3, "pojazd 3", "2010", 11999, 20, 3000, "C", ""))
-        listOfCars.add(CarDTO(4, "pojazd 4", "2000", 4000, 4, 3000, "B", ""))
-        filterListOfCars = listOfCars.clone() as ArrayList<CarDTO>
+        val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibG9naW4iOiJNYWR3b21hbiIsImlhdCI6MTU1NzY1OTA5MywiZXhwIjoxNTU3NzQ1NDkzfQ.8GsKRiB7nvGDe3gpSkQogxqjW5SyfiQQaEvSl1wqAZw")
+        callCars.enqueue(object : Callback<List<CarDTO>> {
+            override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
+                Log.e("call", "Failed to get list of cars")
+            }
+
+            override fun onResponse(call: Call<List<CarDTO>>, response: Response<List<CarDTO>>) {
+                Log.d("call", response.message())
+                val body = response.body()
+                if (body != null) {
+                    // TODO: Filter
+                    adapter.update(body)
+                }
+            }
+        })
+//        listOfCars.add(CarDTO(1, "pojazd 1", "2018", 2000, 5, 3000, "B", ""))
+//        listOfCars.add(CarDTO(2, "pojazd 2", "2008", 3499, 4, 3000, "B", ""))
+//        listOfCars.add(CarDTO(3, "pojazd 3", "2010", 11999, 20, 3000, "C", ""))
+//        listOfCars.add(CarDTO(4, "pojazd 4", "2000", 4000, 4, 3000, "B", ""))
+        // filterListOfCars = listOfCars.clone() as ArrayList<CarDTO>
         val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = Adapter(filterListOfCars,this)
-        recyclerView.setAdapter(adapter)
+        adapter = Adapter(emptyList(),this)
+        recyclerView.adapter = adapter
 
     }
 
