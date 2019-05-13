@@ -31,7 +31,7 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_cars)
 
-        val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibG9naW4iOiJNYWR3b21hbiIsImlhdCI6MTU1NzY1OTA5MywiZXhwIjoxNTU3NzQ1NDkzfQ.8GsKRiB7nvGDe3gpSkQogxqjW5SyfiQQaEvSl1wqAZw")
+        val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
         callCars.enqueue(object : Callback<List<CarDTO>> {
             override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
                 Log.e("call", "Failed to get list of cars")
@@ -41,8 +41,9 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
                 Log.d("call", response.message())
                 val body = response.body()
                 if (body != null) {
-                    // TODO: Filter
-                    adapter.update(body)
+                    listOfCars.clear()
+                    listOfCars.addAll(body)
+                    adapter.update(listOfCars)
                 }
             }
         })
@@ -169,6 +170,11 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
             R.id.sortByPriceFromSmallest -> {sortByPriceFromSmallest()}
             R.id.sortByPriceFromBiggest -> {sortByPriceFromBiggest()}
             R.id.Filter -> {filter()}
+            R.id.History -> {
+                Intent(this, HistoryListActivity::class.java).apply {
+                    startActivity(this)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
