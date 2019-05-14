@@ -7,6 +7,7 @@ data class HistoryItem (
     var userID: Int,
     var info: CarsInfo,
     var date: String,
+    var finishDate: String,
     var startTime: String,
     var endTime: String,
     var vehicleImage: Int,

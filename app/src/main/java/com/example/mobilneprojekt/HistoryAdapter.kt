@@ -28,7 +28,7 @@ class HistoryAdapter(val items: ArrayList<HistoryItem>, val clickListener: (Int)
         holder.vechicleName.text = item.info.getName()
         holder.totalTime.text = item.totalTime
         holder.cost.text = item.info.getPrice().toString()
-        holder.maybeMap.setOnClickListener{
+        holder.v.setOnClickListener{
             clickListener(position)
         }
 
@@ -41,7 +41,7 @@ class HistoryAdapter(val items: ArrayList<HistoryItem>, val clickListener: (Int)
         val vechicleName: TextView = view.vehicle
         val totalTime: TextView = view.timeTrip
         val cost: TextView = view.cost
-        val maybeMap: ImageView = view.map
+        val v: View = view
     }
 
 
