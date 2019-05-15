@@ -19,13 +19,14 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
     var listOfCars = ArrayList<CarDTO>()
     lateinit var adapter: Adapter
+    var numberOfNewActivity=2
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_cars)
 
-        val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
+        /*val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
         callCars.enqueue(object : Callback<List<CarDTO>> {
             override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
                 Log.e("call", "Failed to get list of cars")
@@ -40,7 +41,8 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
                     adapter.update(listOfCars)
                 }
             }
-        })
+        })*/
+        loadData()
         val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = Adapter(emptyList(),this)
@@ -49,9 +51,8 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
     }
 
 
-    override fun onSaveInstanceState(savedInstanceState: Bundle?)
+    fun loadData()
     {
-        super.onSaveInstanceState(savedInstanceState)
         val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
         callCars.enqueue(object : Callback<List<CarDTO>> {
             override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
@@ -68,6 +69,12 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
                 }
             }
         })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        if (numberOfNewActivity==1)
+            loadData()
     }
 
     override fun onItemClick(position: Int) {
@@ -80,7 +87,8 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
         intent.putExtra("mileage", listOfCars[position].mileage.toString())
         intent.putExtra("price", listOfCars[position].price.toString())
         intent.putExtra("image", listOfCars[position].image)
-        startActivity(intent)
+        numberOfNewActivity=2
+        startActivityForResult(intent,2)
     }
 
 
@@ -97,6 +105,7 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
     fun filter ()
     {
         val intent = Intent(this, FilterActivity::class.java)
+        numberOfNewActivity=1
         startActivityForResult(intent, 1)
     }
 
@@ -161,11 +170,14 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
             return
         }
-        val category = data.getStringArrayExtra("uncheckedTypes")
-        val size = data.getIntExtra("size",0)
-        val minPrice = data.getIntExtra("minPrice",0)
-        val maxPrice = data.getIntExtra("maxPrice",0)
-        filterList(minPrice, maxPrice, category, size)
+        //if(resultCode==1)
+        //{
+            val category = data.getStringArrayExtra("uncheckedTypes")
+            val size = data.getIntExtra("size", 0)
+            val minPrice = data.getIntExtra("minPrice", 0)
+            val maxPrice = data.getIntExtra("maxPrice", 0)
+            filterList(minPrice, maxPrice, category, size)
+        //}
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -191,11 +203,13 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
             R.id.info -> {
                 Log.v("am", "info")
             }
-            /*R.id.map -> {
-                Intent(this, HistoryListActivity::class.java).apply {
-                    startActivity(this)
-                }
-            }*/
+            R.id.map -> {
+
+                /*Intent(this, Map::class.java).apply {
+                    numberOfNewActivity=3
+                    startActivityForResult(this,3)
+                }*/
+            }
         }
         return super.onOptionsItemSelected(item)
     }
