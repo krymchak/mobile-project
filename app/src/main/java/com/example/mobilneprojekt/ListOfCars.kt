@@ -8,13 +8,8 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ListView
-import android.widget.Toast
 import com.example.mobilneprojekt.services.CarDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
-import kotlinx.android.synthetic.main.list_of_cars.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +18,6 @@ import retrofit2.Response
 class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
     var listOfCars = ArrayList<CarDTO>()
-    var filterListOfCars = ArrayList<CarDTO>()
     lateinit var adapter: Adapter
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -47,11 +41,6 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
                 }
             }
         })
-//        listOfCars.add(CarDTO(1, "pojazd 1", "2018", 2000, 5, 3000, "B", ""))
-//        listOfCars.add(CarDTO(2, "pojazd 2", "2008", 3499, 4, 3000, "B", ""))
-//        listOfCars.add(CarDTO(3, "pojazd 3", "2010", 11999, 20, 3000, "C", ""))
-//        listOfCars.add(CarDTO(4, "pojazd 4", "2000", 4000, 4, 3000, "B", ""))
-        // filterListOfCars = listOfCars.clone() as ArrayList<CarDTO>
         val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = Adapter(emptyList(),this)
@@ -59,29 +48,50 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
     }
 
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle?)
+    {
+        super.onSaveInstanceState(savedInstanceState)
+        val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
+        callCars.enqueue(object : Callback<List<CarDTO>> {
+            override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
+                Log.e("call", "Failed to get list of cars")
+            }
+
+            override fun onResponse(call: Call<List<CarDTO>>, response: Response<List<CarDTO>>) {
+                Log.d("call", response.message())
+                val body = response.body()
+                if (body != null) {
+                    listOfCars.clear()
+                    listOfCars.addAll(body)
+                    adapter.update(listOfCars)
+                }
+            }
+        })
+    }
+
     override fun onItemClick(position: Int) {
         val intent = Intent(this, DetailInfoCarActivity::class.java)
-        intent.putExtra("name", filterListOfCars[position].name)
-        intent.putExtra("category", filterListOfCars[position].category)
-        intent.putExtra("year", filterListOfCars[position].year)
-        intent.putExtra("seats", filterListOfCars[position].seats.toString())
-        intent.putExtra("dmc", filterListOfCars[position].dmc.toString())
-        intent.putExtra("mileage", filterListOfCars[position].mileage.toString())
+        intent.putExtra("name", listOfCars[position].name)
+        intent.putExtra("category", listOfCars[position].category)
+        intent.putExtra("year", listOfCars[position].year)
+        intent.putExtra("seats", listOfCars[position].seats.toString())
+        intent.putExtra("dmc", listOfCars[position].dmc.toString())
+        intent.putExtra("mileage", listOfCars[position].mileage.toString())
+        intent.putExtra("price", listOfCars[position].price.toString())
+        intent.putExtra("image", listOfCars[position].image)
         startActivity(intent)
     }
 
+
     private fun sortByPriceFromBiggest() {
-        //var list= filterListOfCars.sortedWith(compareByDescending({ it.getPrice() }))
-        //adapter.update(list)
+        var list= listOfCars.sortedWith(compareByDescending({ it.price }))
+        adapter.update(list)
     }
 
     private fun sortByPriceFromSmallest() {
-        //var list= filterListOfCars.sortedWith(compareBy({ it.getPrice() }))
-       // adapter.update(list)
-    }
-
-    private fun sortByDistance() {
-
+        var list= listOfCars.sortedWith(compareBy({ it.price }))
+        adapter.update(list)
     }
 
     fun filter ()
@@ -95,11 +105,11 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
         for (j in 0..category.size-1)
         {
             var i=0
-            while (i<filterListOfCars.size)
+            while (i<listOfCars.size)
             {
-                if(filterListOfCars[i].category==category[j])
+                if(listOfCars[i].category==category[j])
                 {
-                    filterListOfCars.removeAt(i)
+                    listOfCars.removeAt(i)
                     i--
                 }
                 i++
@@ -110,11 +120,11 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
     fun filterBySize(size: Int)
     {
         var i=0
-        while (i<filterListOfCars.size)
+        while (i<listOfCars.size)
         {
-            if(filterListOfCars[i].seats<size)
+            if(listOfCars[i].seats<size)
             {
-                filterListOfCars.removeAt(i)
+                listOfCars.removeAt(i)
                 i--
 
             }
@@ -124,26 +134,26 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
     fun filterByPrice(minPrice: Int, maxPrice: Int)
     {
-        /*var i=0
-        while (i<filterListOfCars.size)
+        var i=0
+        while (i<listOfCars.size)
         {
-            if(filterListOfCars[i].getPrice()<minPrice.toFloat() || filterListOfCars[i].getPrice()>maxPrice)
+            if(listOfCars[i].price<minPrice.toFloat() || listOfCars[i].price>maxPrice)
             {
-                filterListOfCars.removeAt(i)
+                listOfCars.removeAt(i)
                 i--
 
             }
             i++
-        }*/
+        }
     }
 
     fun filterList(minPrice: Int, maxPrice: Int, category: Array<String>, size: Int)
     {
-        filterListOfCars = listOfCars.clone() as ArrayList<CarDTO>
+        listOfCars = listOfCars.clone() as ArrayList<CarDTO>
         filterByCategory(category)
         filterBySize(size)
         filterByPrice(minPrice, maxPrice)
-        adapter.update(filterListOfCars)
+        adapter.update(listOfCars)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -170,13 +180,26 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
             R.id.sortByPriceFromSmallest -> {sortByPriceFromSmallest()}
             R.id.sortByPriceFromBiggest -> {sortByPriceFromBiggest()}
             R.id.Filter -> {filter()}
-            R.id.History -> {
+            R.id.history -> {
                 Intent(this, HistoryListActivity::class.java).apply {
                     startActivity(this)
                 }
             }
+            R.id.add -> {
+                Log.v("am", "add")
+            }
+            R.id.info -> {
+                Log.v("am", "info")
+            }
+            /*R.id.map -> {
+                Intent(this, HistoryListActivity::class.java).apply {
+                    startActivity(this)
+                }
+            }*/
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 
 }
