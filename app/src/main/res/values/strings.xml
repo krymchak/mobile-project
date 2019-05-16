@@ -9,4 +9,12 @@
         <item>22</item>
         <item>40</item>
     </string-array>
+    <string name="name">Nazwa</string>
+    <string name="year">Rocznik</string>
+    <string name="dmc">Dmc</string>
+    <string name="seats">Siedzenia</string>
+    <string name="mileage">Przebieg</string>
+    <string name="price">Cena</string>
+    <string name="sec">Kaucja</string>
+    <string name="addCar">Dodaj auto</string>
 </resources>

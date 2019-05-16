@@ -1,7 +1,9 @@
 package com.example.mobilneprojekt
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -14,34 +16,22 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+const val REQUEST_TAKE_PHOTO = 101
+const val REQUEST_ADD_CAR = 102
+const val REQUEST_FILTER = 103
 
 class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
     var listOfCars = ArrayList<CarDTO>()
     lateinit var adapter: Adapter
     var numberOfNewActivity=2
+    lateinit var token : String
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_cars)
 
-        /*val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
-        callCars.enqueue(object : Callback<List<CarDTO>> {
-            override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
-                Log.e("call", "Failed to get list of cars")
-            }
-
-            override fun onResponse(call: Call<List<CarDTO>>, response: Response<List<CarDTO>>) {
-                Log.d("call", response.message())
-                val body = response.body()
-                if (body != null) {
-                    listOfCars.clear()
-                    listOfCars.addAll(body)
-                    adapter.update(listOfCars)
-                }
-            }
-        })*/
         loadData()
         val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -53,7 +43,8 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
     fun loadData()
     {
-        val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
+        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU"
+        val callCars = ServiceBuilder.getRentalService().getCars(token)
         callCars.enqueue(object : Callback<List<CarDTO>> {
             override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
                 Log.e("call", "Failed to get list of cars")
@@ -106,7 +97,7 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
     {
         val intent = Intent(this, FilterActivity::class.java)
         numberOfNewActivity=1
-        startActivityForResult(intent, 1)
+        startActivityForResult(intent, REQUEST_FILTER)
     }
 
     fun filterByCategory(category: Array<String>)
@@ -166,18 +157,34 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (data == null) {
+        when(requestCode) {
+            REQUEST_TAKE_PHOTO -> {
+                Log.d("ar", "REQUEST_TAKE_PHOTO returned")
+                if (resultCode == RESULT_OK && data != null) {
+                    Log.d("ar", "got data from camera")
+                    val imageBitmap = data.extras.get("data") as Bitmap
+                    Intent(this, AddCarActivity::class.java).also { addCarIntent ->
+                        addCarIntent.putExtra("data", imageBitmap)
+                        addCarIntent.putExtra("token", token)
+                        startActivityForResult(addCarIntent, REQUEST_ADD_CAR)
+                    }
+                }
+            }
+            REQUEST_FILTER -> {
+                if (data == null) {
 
-            return
+                    return
+                }
+                //if(resultCode==1)
+                //{
+                val category = data.getStringArrayExtra("uncheckedTypes")
+                val size = data.getIntExtra("size", 0)
+                val minPrice = data.getIntExtra("minPrice", 0)
+                val maxPrice = data.getIntExtra("maxPrice", 0)
+                filterList(minPrice, maxPrice, category, size)
+                //}
+            }
         }
-        //if(resultCode==1)
-        //{
-            val category = data.getStringArrayExtra("uncheckedTypes")
-            val size = data.getIntExtra("size", 0)
-            val minPrice = data.getIntExtra("minPrice", 0)
-            val maxPrice = data.getIntExtra("maxPrice", 0)
-            filterList(minPrice, maxPrice, category, size)
-        //}
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -199,6 +206,11 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
             }
             R.id.add -> {
                 Log.v("am", "add")
+                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                    takePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+                    }
+                }
             }
             R.id.info -> {
                 Log.v("am", "info")
