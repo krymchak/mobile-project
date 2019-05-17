@@ -195,39 +195,39 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
-        when (item?.itemId)
-        {
-            R.id.sortByPriceFromSmallest -> {sortByPriceFromSmallest()}
-            R.id.sortByPriceFromBiggest -> {sortByPriceFromBiggest()}
-            R.id.Filter -> {filter()}
-            R.id.history -> {
-                Intent(this, HistoryListActivity::class.java).apply {
-                    startActivity(this)
-                }
-            }
-            R.id.add -> {
-                Log.v("am", "add")
-                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                    takePictureIntent.resolveActivity(packageManager)?.also {
-                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
-                    }
-                }
-            }
-            R.id.info -> {
-                Log.v("am", "info")
-            }
-            R.id.map -> {
-
-                /*Intent(this, Map::class.java).apply {
-                    numberOfNewActivity=3
-                    startActivityForResult(this,3)
-                }*/
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//
+////        when (item?.itemId)
+////        {
+////            R.id.sortByPriceFromSmallest -> {sortByPriceFromSmallest()}
+////            R.id.sortByPriceFromBiggest -> {sortByPriceFromBiggest()}
+////            R.id.Filter -> {filter()}
+////            R.id.history -> {
+////                Intent(this, HistoryListActivity::class.java).apply {
+////                    startActivity(this)
+////                }
+////            }
+////            R.id.add -> {
+////                Log.v("am", "add")
+////                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+////                    takePictureIntent.resolveActivity(packageManager)?.also {
+////                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+////                    }
+////                }
+////            }
+////            R.id.info -> {
+////                Log.v("am", "info")
+////            }
+////            R.id.map -> {
+////
+////                /*Intent(this, Map::class.java).apply {
+////                    numberOfNewActivity=3
+////                    startActivityForResult(this,3)
+////                }*/
+////            }
+////        }
+////        return super.onOptionsItemSelected(item)
+//    }
 
 
 

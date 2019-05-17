@@ -50,9 +50,11 @@ class HistoryListActivity : AppCompatActivity(), HistoryAdapter.ClickListener {
 
     override fun onItemClick(position: Int) {
         val intent = Intent(this, HistoryDetailsActivity::class.java)
-
+        intent.putExtra("name", listOfHistory[position].name)
         startActivity(intent)
     }
+
+
 
 
 }

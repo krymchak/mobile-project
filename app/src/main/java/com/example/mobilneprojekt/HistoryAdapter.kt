@@ -26,12 +26,11 @@ class HistoryAdapter(values: List<HistoryEntryDTO>, clickListener: ClickListener
         this.clickListener = clickListener
     }
     override fun onBindViewHolder(holder: HistoryAdapter.ViewHolder, position: Int) {
-        holder.name.text = values[position].name
-        holder.type.text = values[position].category
-
+        holder.vehicle.text = values[position].name
+        holder.date.text = values[position].date
         holder.price.text = values[position].price.toString()
+
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
-        Picasso.get().load(url).centerCrop().fit().into(holder.image)
 
     }
 
@@ -46,17 +45,15 @@ class HistoryAdapter(values: List<HistoryEntryDTO>, clickListener: ClickListener
 
     class ViewHolder(view: View, clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener
     {
-        var name: TextView
-        var type : TextView
-        var price: TextView
-        var image: ImageView
+        var vehicle = view.findViewById(R.id.vehicle) as TextView
+        var date = view.findViewById(R.id.date) as TextView
+        var price = view.findViewById(R.id.price) as TextView
+
         var clickListener: ClickListener
+
         init
         {
-            name = view.findViewById(R.id.name)
-            type = view.findViewById(R.id.type)
-            price = view.findViewById(R.id.price)
-            image = view.findViewById(R.id.imageView2)
+
             this.clickListener=clickListener
             view.setOnClickListener(this)
         }

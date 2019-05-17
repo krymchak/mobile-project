@@ -26,15 +26,15 @@ class HistoryDetailsActivity: AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history_details)
 
-        val id = intent.getStringExtra("id")
-        //get item from DB by ID.toInt()
-
+//        val id = intent.getStringExtra("id")
+//        //get item from DB by ID.toInt()
+//
         val from = LatLng(51.109687, 17.058089)
         val to = LatLng(51.103508, 17.085291)
-        val item = (HistoryItem(0,0, CarsInfo("CarName", "C", 12F), "12.12.12", "12.12.12","15:30",
-            "15:42", R.drawable.ic_launcher_background,  from, to,  "12H:12M:12S"))
+//        val item = (HistoryItem(0,0, CarsInfo("CarName", "C", 12F), "12.12.12", "12.12.12","15:30",
+//            "15:42", R.drawable.ic_launcher_background,  from, to,  "12H:12M:12S"))
 
-        showItem(item)
+        showItem()
 
         mapFragment = supportFragmentManager.findFragmentById(R.id.gMapFragment) as SupportMapFragment
         mapFragment.getMapAsync(OnMapReadyCallback {
@@ -62,19 +62,20 @@ class HistoryDetailsActivity: AppCompatActivity(){
     }
 
 
-    fun showItem(item: HistoryItem) {
-        imageView.setImageResource(item.vehicleImage)
-        vname.text = item.info.getName()
-        id.text = item.id.toString()
-        date_start.text = item.date
-        start_time.text = item.startTime
-        start_coords.text = item.fromCoords.latitude.toString() + ", " + item.fromCoords.longitude.toString()
-        finish_coords.text = item.toCoords.latitude.toString() + ", " + item.toCoords.longitude.toString()
-        finish_date.text = item.finishDate
-        finish_time.text = item.endTime
-        total_time.text = item.totalTime
-        price.text = item.info.getPrice().toString()
-
+    fun showItem() {
+//        imageView.setImageResource(item.vehicleImage)
+//        vname.text = item.info.getName()
+//        id.text = item.id.toString()
+//        date_start.text = item.date
+//        start_time.text = item.startTime
+//        start_coords.text = item.fromCoords.latitude.toString() + ", " + item.fromCoords.longitude.toString()
+//        finish_coords.text = item.toCoords.latitude.toString() + ", " + item.toCoords.longitude.toString()
+//        finish_date.text = item.finishDate
+//        finish_time.text = item.endTime
+//        total_time.text = item.totalTime
+//        price.text = item.info.getPrice().toString()
+        imageView
+        vname.text = intent.getStringExtra("name")
     }
 
     fun createCustomMarker(context: Context, @DrawableRes resource: Int): Bitmap {
