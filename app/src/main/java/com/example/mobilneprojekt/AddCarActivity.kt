@@ -53,7 +53,7 @@ class AddCarActivity : AppCompatActivity() {
 //        }
 
 
-        val car = NewCarDTO(name, year, dmc, seats, mileage, b64Image, price, sec)
+        val car = NewCarDTO(name, year, dmc, seats, mileage, b64Image, price, sec, 0.0F, 0.0F)
         // TODO: Add dialog to confirm
 
         val call = ServiceBuilder.getRentalService().addCar(token, car)
