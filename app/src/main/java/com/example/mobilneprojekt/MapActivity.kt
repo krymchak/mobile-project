@@ -39,10 +39,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.map_activity.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import java.lang.Exception
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
@@ -187,7 +184,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
                 val position = LatLng(listOfCars[i].latitude, listOfCars[i].Longitude)
                 val url = listOfCars[i].image
 
-                googleMap.addMarker(MarkerOptions().position(position).title(i.toString()).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, url))))
+                createCustomMarker(this, url) { bitmap ->
+                    googleMap.addMarker(MarkerOptions().position(position).title(i.toString()).icon(BitmapDescriptorFactory.fromBitmap(bitmap)))
+                }
+
             }
 
             googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
@@ -216,7 +216,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
 
     }
 
-    fun createCustomMarker(context: Context, url: String): Bitmap {
+    fun createCustomMarker(context: Context, url: String, callback: (Bitmap) -> Unit) {
 
         val marker = (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
             R.layout.custom_marker_layout,
@@ -235,11 +235,20 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
         marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels)
         marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
         marker.buildDrawingCache()
-        val bitmap = Bitmap.createBitmap(marker.measuredWidth, marker.measuredHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        marker.draw(canvas)
 
-        return bitmap
+
+        Picasso.get().load(image).into(markerImage, object: com.squareup.picasso.Callback {
+            override fun onSuccess() {
+                val bitmap = Bitmap.createBitmap(marker.measuredWidth, marker.measuredHeight, Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(bitmap)
+                marker.draw(canvas)
+                callback.invoke(bitmap)
+            }
+
+            override fun onError(e: Exception?) {
+            }
+
+        })
     }
 
 }
