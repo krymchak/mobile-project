@@ -32,8 +32,6 @@
 
         <activity android:name=".HistoryListActivity" />
         <activity android:name=".HistoryDetailsActivity"/>
-
-        <activity android:name=".AddCarActivity"/>
     </application>
 
 </manifest>

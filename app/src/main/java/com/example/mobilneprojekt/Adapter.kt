@@ -26,7 +26,7 @@ class Adapter(values: List<CarDTO>, clickListener: ClickListener): RecyclerView.
         holder.name.text = values[position].name
         holder.type.text = values[position].category
         //holder.price.text = values[position].getPrice().toString() + "$"
-        holder.price.text = values[position].price.toString()
+        holder.price.text = values[position].price.toString()+ "$"
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
         Picasso.get().load(url).centerCrop().fit().into(holder.image)
 

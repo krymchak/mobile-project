@@ -33,20 +33,6 @@ class FilterActivity : AppCompatActivity()
             {
                 val choose = resources.getStringArray(R.array.seats)
                 size = choose[selectedItemPosition].toInt()
-                /*if (choose[selectedItemPosition]=="Według odleglosci")
-                {
-                    sortByDistance()
-                }
-                if (choose[selectedItemPosition]=="Według ceny (od najniższej)")
-                {
-                    sortByPriceFromSmallest()
-                }
-                if (choose[selectedItemPosition]=="Według ceny (od najwyższej)")
-                {
-                    sortByPriceFromBiggest()
-                }*/
-
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -55,7 +41,6 @@ class FilterActivity : AppCompatActivity()
 
     fun onClick(v: View)
     {
-        //checkSize()
         checkType()
         borderOfPrice()
 
@@ -96,23 +81,8 @@ class FilterActivity : AppCompatActivity()
             if (!checkBox.isChecked)
             {
                 uncheckedTypes.add(types[i])
-                Log.v("aaaa", i.toString())
             }
 
         }
     }
-
-   /* private fun checkType()
-    {
-        for (i in 0..sizes.size-1)
-        {
-            val ID = sizes[i]
-            val resID = resources.getIdentifier("size$ID", "id", packageName)
-            val checkBox = findViewById(resID) as CheckBox
-            if (!checkBox.isChecked)
-            {
-                uncheckedSizes.add(sizes[i])
-            }
-        }
-    }*/
 }
