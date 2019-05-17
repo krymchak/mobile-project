@@ -248,6 +248,13 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
                 startActivityForResult(intent,3)
             }
+            R.id.logout -> {
+                with (preferences.edit()) {
+                    putString("token", "")
+                    apply()
+                }
+                finish()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
