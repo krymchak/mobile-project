@@ -228,8 +228,6 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
                 {
                     json = gson.toJson(listOfCars[i])
                     intent.putExtra(i.toString(), json)
-                    // prefsEditor.putFloat(i.toString(), adapter.getImage(i).priority!!)
-
                 }
                 numberOfNewActivity=3
 
