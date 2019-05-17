@@ -166,21 +166,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
     }
 
     private fun addMarkers() {
-        /*val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
-        callCars.enqueue(object : Callback<List<CarDTO>> {
-            override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
-                Log.e("call", "Failed to get list of cars")
-            }
 
-            override fun onResponse(call: Call<List<CarDTO>>, response: Response<List<CarDTO>>) {
-                Log.d("call", response.message())
-                val body = response.body()
-                if (body != null) {
-                    listOfCars.clear()
-                    listOfCars.addAll(body)
-                }
-            }
-        })*/
         val size= intent.getIntExtra("size",0)
         val gson = Gson()
         var json : String
@@ -196,9 +182,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
 
             for (i in 0..listOfCars.size-1)
             {
-                val from = LatLng(51.109687+i, 17.058089)
+                val position = LatLng(listOfCars[i].latitude, listOfCars[i].Longitude)
 
-                googleMap.addMarker(MarkerOptions().position(from).title(i.toString()).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.s_marker))))
+                googleMap.addMarker(MarkerOptions().position(position).title(i.toString()).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.s_marker))))
             }
 
             googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {

@@ -29,8 +29,7 @@ class HistoryDetailsActivity: AppCompatActivity(){
 //        val id = intent.getStringExtra("id")
 //        //get item from DB by ID.toInt()
 //
-        val from = LatLng(51.109687, 17.058089)
-        val to = LatLng(51.103508, 17.085291)
+        val from = LatLng(intent.getDoubleExtra("lat", 0.0), intent.getDoubleExtra("lng", 0.0))
 //        val item = (HistoryItem(0,0, CarsInfo("CarName", "C", 12F), "12.12.12", "12.12.12","15:30",
 //            "15:42", R.drawable.ic_launcher_background,  from, to,  "12H:12M:12S"))
 
@@ -41,11 +40,9 @@ class HistoryDetailsActivity: AppCompatActivity(){
             googleMap = it
 
             googleMap.addMarker(MarkerOptions().position(from).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.s_marker))))
-            googleMap.addMarker(MarkerOptions().position(to).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.f_marker))))
 
             val builder = LatLngBounds.Builder()
             builder.include(from)
-            builder.include(to)
             val bounds = builder.build()
             val cu = CameraUpdateFactory.newLatLngBounds(bounds, 300, 300, 0)
             googleMap.moveCamera(cu)
