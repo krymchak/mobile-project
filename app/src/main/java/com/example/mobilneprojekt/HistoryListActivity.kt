@@ -1,5 +1,6 @@
 package com.example.mobilneprojekt
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -18,13 +19,21 @@ class HistoryListActivity : AppCompatActivity(), HistoryAdapter.ClickListener {
     var listOfHistory = ArrayList<HistoryEntryDTO>()
     var filterListOfCars = ArrayList<HistoryEntryDTO>()
     lateinit var adapter: HistoryAdapter
+    var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_cars)
 
-        val callCars = ServiceBuilder.getRentalService().getHistory("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwibG9naW4iOiJtaWtvIiwiaWF0IjoxNTU4MDg2MTIxLCJleHAiOjE1NTgxNzI1MjF9.QxBjmMlsyAfo1qobhYZteKPtyyAaRy0cwRmJplA45HA")
+        val preferences = getSharedPreferences("com.herokuapp.mobilne-projekt", Context.MODE_PRIVATE)
+        token = preferences.getString("token", "") ?: ""
+        if (token == "") {
+            finish()
+            return
+        }
+
+        val callCars = ServiceBuilder.getRentalService().getHistory(token)
         callCars.enqueue(object : Callback<List<HistoryEntryDTO>> {
             override fun onFailure(call: Call<List<HistoryEntryDTO>>, t: Throwable) {
                 Log.e("call", "Failed to get history")
@@ -45,7 +54,6 @@ class HistoryListActivity : AppCompatActivity(), HistoryAdapter.ClickListener {
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = HistoryAdapter(emptyList(),this)
         recyclerView.adapter = adapter
-
     }
 
     override fun onItemClick(position: Int) {

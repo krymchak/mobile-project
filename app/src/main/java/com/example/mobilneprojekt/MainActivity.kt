@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
                         putString("token", response.body())
                         apply()
                     }
+
                     reroute()
                 }
             })

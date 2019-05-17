@@ -1,6 +1,8 @@
 package com.example.mobilneprojekt
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
@@ -31,11 +33,13 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
     var size = Integer.MAX_VALUE
     var minPrice = 0
     var maxPrice = Integer.MAX_VALUE
+    lateinit var preferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_cars)
+        preferences = getSharedPreferences("com.herokuapp.mobilne-projekt", Context.MODE_PRIVATE)
 
         loadData()
         val recyclerView = findViewById<RecyclerView>(R.id.list)
@@ -48,7 +52,10 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
     fun loadData()
     {
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU"
+        token = preferences.getString("token", "") ?: ""
+        if (token == "") {
+            finish()
+        }
         val callCars = ServiceBuilder.getRentalService().getCars(token)
         callCars.enqueue(object : Callback<List<CarDTO>> {
             override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {

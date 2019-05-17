@@ -1,5 +1,6 @@
 package com.example.mobilneprojekt
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.util.Log
@@ -16,6 +17,7 @@ import retrofit2.Response
 class DetailInfoCarActivity : FragmentActivity() {
 
     var id = 0
+    var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,16 +35,22 @@ class DetailInfoCarActivity : FragmentActivity() {
         var image = findViewById(R.id.imageView4) as ImageView
         val url = "${ServiceBuilder.getUrl()}${intent.getStringExtra("image")}"
         Picasso.get().load(url).centerCrop().fit().into(image)
+
+        val preferences = getSharedPreferences("com.herokuapp.mobilne-projekt", Context.MODE_PRIVATE)
+        token = preferences.getString("token", "") ?: ""
+        if (token == "") {
+            finish()
+        }
     }
 
     fun rent(v: View)
     {
         val car = CarIdDTO(id)
-        ServiceBuilder.getRentalService().rentCar("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU", car).enqueue(object : Callback<Void> {
+        ServiceBuilder.getRentalService().rentCar(token, car).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
-
-                if (response.isSuccessful()) {
-                    Log.v("info", "post submitted to API")
+                Log.v("info", "post submitted to API")
+                if (response.isSuccessful) {
+                    finish()
                 }
             }
 
