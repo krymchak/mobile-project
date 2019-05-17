@@ -1,46 +1,62 @@
 package com.example.mobilneprojekt
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.google.android.gms.maps.model.LatLng
+import android.util.Log
+import com.example.mobilneprojekt.services.HistoryEntryDTO
+import com.example.mobilneprojekt.services.ServiceBuilder
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
-class HistoryListActivity : AppCompatActivity(){
+class HistoryListActivity : AppCompatActivity(), HistoryAdapter.ClickListener {
 
-    var historyItems: ArrayList<HistoryItem>? = null
+    var listOfHistory = ArrayList<HistoryEntryDTO>()
+    var filterListOfCars = ArrayList<HistoryEntryDTO>()
+    lateinit var adapter: HistoryAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_history_list)
+        setContentView(R.layout.list_of_cars)
 
-        historyItems = ArrayList<HistoryItem>() //get from DB
+        val callCars = ServiceBuilder.getRentalService().getHistory("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwibG9naW4iOiJtaWtvIiwiaWF0IjoxNTU4MDg2MTIxLCJleHAiOjE1NTgxNzI1MjF9.QxBjmMlsyAfo1qobhYZteKPtyyAaRy0cwRmJplA45HA")
+        callCars.enqueue(object : Callback<List<HistoryEntryDTO>> {
+            override fun onFailure(call: Call<List<HistoryEntryDTO>>, t: Throwable) {
+                Log.e("call", "Failed to get history")
+            }
 
-        val c = LatLng(51.109687, 17.058089)
+            override fun onResponse(call: Call<List<HistoryEntryDTO>>, response: Response<List<HistoryEntryDTO>>) {
+                Log.d("call", response.message())
+                val body = response.body()
+                if (body != null) {
+                    listOfHistory.clear()
+                    listOfHistory.addAll(body)
+                    adapter.update(listOfHistory)
+                }
+            }
+        })
 
-        historyItems!!.add(HistoryItem(0,0,  CarsInfo("CarName", "C", 12F), "12.12.12", "12.12.12","15:30",
-            "15:42", R.drawable.ic_launcher_background,  c, c,  "12H:12M:12S"))
-        historyItems!!.add(HistoryItem(0,0, CarsInfo("CarName", "C", 12F), "12.12.12", "12.12.12","15:30",
-            "15:42", R.drawable.ic_launcher_background,  c, c,  "12H:12M:12S"))
-        historyItems!!.add(HistoryItem(0,0, CarsInfo("CarName", "C", 12F), "12.12.12", "12.12.12","15:30",
-            "15:42", R.drawable.ic_launcher_background,  c, c,  "12H:12M:12S"))
-
-
-        val recyclerView = findViewById<RecyclerView>(R.id.historyView)
+        val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = HistoryAdapter(historyItems!!, clickListener = {appClickListener(it)})
+        adapter = HistoryAdapter(emptyList(),this)
+        recyclerView.adapter = adapter
 
     }
 
-    fun appClickListener(position: Int) {
+    override fun onItemClick(position: Int) {
         val intent = Intent(this, HistoryDetailsActivity::class.java)
-        val id = historyItems!![position].id.toString()
-        intent.putExtra("id", id)
+        intent.putExtra("name", listOfHistory[position].name)
+        intent.putExtra("lat", listOfHistory[position].latitude)
+        intent.putExtra("lng", listOfHistory[position].Longitude)
         startActivity(intent)
     }
+
+
 
 
 }
