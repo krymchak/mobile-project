@@ -11,5 +11,5 @@ interface UserService {
     fun register(@Body user: UserDTO): Call<Void>
 }
 
-data class UserCredentialsDTO(val username: String, val password: String)
+data class UserCredentialsDTO(val login: String, val password: String)
 data class UserDTO(val name: String, val surname: String, val dateOfBirth: String, val pesel: String, val login: String, val password: String)

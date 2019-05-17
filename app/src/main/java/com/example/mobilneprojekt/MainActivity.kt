@@ -56,13 +56,17 @@ class MainActivity : AppCompatActivity() {
 
         buttonLog.setOnClickListener {
             val user = UserCredentialsDTO(usernameLog.text.toString(), passLog.text.toString())
+            Log.e("credentials", user.toString())
             val call = ServiceBuilder.getUserService().login(user)
+            Log.e("Login", "Is logged.")
             call.enqueue(object : Callback<String>{
                 override fun onFailure(call: Call<String>, t: Throwable) {
+                    Log.e("Onfail", "Failed to login")
                     fail()
                 }
 
                 override fun onResponse(call: Call<String>, response: Response<String>) {
+                    Log.e("onSucc", "Success")
                     reroute()
                 }
             })
