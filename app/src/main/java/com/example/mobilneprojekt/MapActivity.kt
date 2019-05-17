@@ -37,7 +37,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.map_activity.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -183,8 +185,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
             for (i in 0..listOfCars.size-1)
             {
                 val position = LatLng(listOfCars[i].latitude, listOfCars[i].Longitude)
+                val url = listOfCars[i].image
 
-                googleMap.addMarker(MarkerOptions().position(position).title(i.toString()).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.s_marker))))
+                googleMap.addMarker(MarkerOptions().position(position).title(i.toString()).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, url))))
             }
 
             googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
@@ -213,7 +216,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
 
     }
 
-    fun createCustomMarker(context: Context, @DrawableRes resource: Int): Bitmap {
+    fun createCustomMarker(context: Context, url: String): Bitmap {
 
         val marker = (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
             R.layout.custom_marker_layout,
@@ -221,7 +224,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
         )
 
         val markerImage = marker.findViewById(R.id.user_dp) as CircleImageView
-        markerImage.setImageResource(resource)
+
+        val image = "${ServiceBuilder.getUrl()}$url"
+        Picasso.get().load(image).into(markerImage)
+
 
         val displayMetrics = DisplayMetrics()
         (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
