@@ -40,25 +40,26 @@ class MainActivity : AppCompatActivity() {
         registerUserBt.setOnClickListener {
             val user = UserDTO(name.text.toString(), surname.text.toString(), dateOfBirth.text.toString(), pesel.text.toString(), username.text.toString(), password.text.toString())
             val call = ServiceBuilder.getUserService().register(user)
-            call.enqueue(object : Callback<Void>{
-                override fun onFailure(call: Call<Void>, t: Throwable) {
+            call.enqueue(object : Callback<String>{
+                override fun onFailure(call: Call<String>, t: Throwable) {
                     Log.e("OCL","Fail to register User!")
                 }
 
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    Log.d("OCL", "Success")
                     showLoginLayout()
+                    with (preferences.edit()) {
+                        putString("token", response.body())
+                        apply()
+                    }
+                    reroute()
                 }
-
             })
-
-
         }
 
         buttonLog.setOnClickListener {
             val user = UserCredentialsDTO(usernameLog.text.toString(), passLog.text.toString())
-            Log.e("credentials", user.toString())
             val call = ServiceBuilder.getUserService().login(user)
-            Log.e("Login", "Is logged.")
             call.enqueue(object : Callback<String>{
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     Log.e("Onfail", "Failed to login")
@@ -66,7 +67,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onResponse(call: Call<String>, response: Response<String>) {
-                    Log.e("onSucc", "Success")
+                    Log.d("onSucc", "Success")
+                    with (preferences.edit()) {
+                        putString("token", response.body())
+                        apply()
+                    }
                     reroute()
                 }
             })

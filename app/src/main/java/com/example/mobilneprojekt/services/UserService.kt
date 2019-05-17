@@ -8,7 +8,7 @@ interface UserService {
     @POST("api/login")
     fun login(@Body user: UserCredentialsDTO): Call<String>
     @POST("api/register")
-    fun register(@Body user: UserDTO): Call<Void>
+    fun register(@Body user: UserDTO): Call<String>
 }
 
 data class UserCredentialsDTO(val login: String, val password: String)
