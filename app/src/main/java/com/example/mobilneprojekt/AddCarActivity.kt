@@ -86,6 +86,11 @@ class AddCarActivity : AppCompatActivity(),GoogleApiClient.ConnectionCallbacks, 
         val stream = ByteArrayOutputStream()
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
         val b64Image = Base64.encodeToString(stream.toByteArray(), DEFAULT)
+//        val sb = StringBuilder()
+//        sb.append("0x")
+//        for (byte in stream.toByteArray()) {
+//            sb.append(String.format("%02X", byte))
+//        }
 
 
         val car = NewCarDTO(name, year, dmc, seats, mileage, b64Image, price, sec, if (lat != null) lat!! else 0.0, if (lng != null) lng!! else 0.0)

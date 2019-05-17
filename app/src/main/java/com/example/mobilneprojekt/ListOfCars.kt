@@ -27,6 +27,10 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
     lateinit var adapter: Adapter
     var numberOfNewActivity=2
     lateinit var token : String
+    var category: Array<String> = arrayOf()
+    var size = Integer.MAX_VALUE
+    var minPrice = 0
+    var maxPrice = Integer.MAX_VALUE
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -100,6 +104,10 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
     fun filter ()
     {
         val intent = Intent(this, FilterActivity::class.java)
+        intent.putExtra("category", category)
+        intent.putExtra("size", size)
+        intent.putExtra("minPrice", minPrice)
+        intent.putExtra("maxPrice", maxPrice)
         numberOfNewActivity=1
         startActivityForResult(intent, REQUEST_FILTER)
     }
@@ -181,10 +189,10 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
                 }
                 //if(resultCode==1)
                 //{
-                val category = data.getStringArrayExtra("uncheckedTypes")
-                val size = data.getIntExtra("size", 0)
-                val minPrice = data.getIntExtra("minPrice", 0)
-                val maxPrice = data.getIntExtra("maxPrice", 0)
+                category = data.getStringArrayExtra("uncheckedTypes")
+                size = data.getIntExtra("size", 0)
+                minPrice = data.getIntExtra("minPrice", 0)
+                maxPrice = data.getIntExtra("maxPrice", 0)
                 filterList(minPrice, maxPrice, category, size)
                 //}
             }
