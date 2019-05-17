@@ -197,11 +197,31 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
             for (i in 0..listOfCars.size-1)
             {
                 val from = LatLng(51.109687+i, 17.058089)
-                val to = LatLng(51.103508, 17.085291)
 
-                googleMap.addMarker(MarkerOptions().position(from).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.s_marker))))
-                googleMap.addMarker(MarkerOptions().position(to).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.f_marker))))
+                googleMap.addMarker(MarkerOptions().position(from).title(i.toString()).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.s_marker))))
             }
+
+            googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
+                override fun onMarkerClick(marker: Marker): Boolean {
+
+                    val position = marker.title.toInt()
+                    val intent = Intent(baseContext, DetailInfoCarActivity::class.java)
+
+                    intent.putExtra("id", listOfCars[position].id)
+                    intent.putExtra("name", listOfCars[position].name)
+                    intent.putExtra("category", listOfCars[position].category)
+                    intent.putExtra("year", listOfCars[position].year)
+                    intent.putExtra("seats", listOfCars[position].seats.toString())
+                    intent.putExtra("dmc", listOfCars[position].dmc.toString())
+                    intent.putExtra("mileage", listOfCars[position].mileage.toString())
+                    intent.putExtra("price", listOfCars[position].price.toString())
+                    intent.putExtra("image", listOfCars[position].image)
+                    startActivityForResult(intent,2)
+
+                    return false
+                }
+            })
+
 
         })
 
