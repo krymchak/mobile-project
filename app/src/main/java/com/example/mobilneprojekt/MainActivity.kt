@@ -101,12 +101,3 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
-
-// Rafal Marcin Mlodzieniak
-//MM
-
-
-//Z mojej strony to tyle - Andrzej
-
-
-//VK
