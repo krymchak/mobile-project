@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.mobilneprojekt.services.CarDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -195,39 +196,48 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
         return true
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-//
-////        when (item?.itemId)
-////        {
-////            R.id.sortByPriceFromSmallest -> {sortByPriceFromSmallest()}
-////            R.id.sortByPriceFromBiggest -> {sortByPriceFromBiggest()}
-////            R.id.Filter -> {filter()}
-////            R.id.history -> {
-////                Intent(this, HistoryListActivity::class.java).apply {
-////                    startActivity(this)
-////                }
-////            }
-////            R.id.add -> {
-////                Log.v("am", "add")
-////                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-////                    takePictureIntent.resolveActivity(packageManager)?.also {
-////                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
-////                    }
-////                }
-////            }
-////            R.id.info -> {
-////                Log.v("am", "info")
-////            }
-////            R.id.map -> {
-////
-////                /*Intent(this, Map::class.java).apply {
-////                    numberOfNewActivity=3
-////                    startActivityForResult(this,3)
-////                }*/
-////            }
-////        }
-////        return super.onOptionsItemSelected(item)
-//    }
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when (item?.itemId)
+        {
+            R.id.sortByPriceFromSmallest -> {sortByPriceFromSmallest()}
+            R.id.sortByPriceFromBiggest -> {sortByPriceFromBiggest()}
+            R.id.Filter -> {filter()}
+            R.id.history -> {
+                Intent(this, HistoryListActivity::class.java).apply {
+                    startActivity(this)
+                }
+            }
+            R.id.add -> {
+                Log.v("am", "add")
+                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                    takePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
+                    }
+                }
+            }
+            R.id.info -> {
+                Log.v("am", "info")
+            }
+            R.id.map -> {
+                val intent = Intent(this, MapActivity::class.java)
+                intent.putExtra("size", listOfCars.size)
+                val gson = Gson()
+                var json : String
+                for (i in 0..listOfCars.size-1)
+                {
+                    json = gson.toJson(listOfCars[i])
+                    intent.putExtra(i.toString(), json)
+                    // prefsEditor.putFloat(i.toString(), adapter.getImage(i).priority!!)
+
+                }
+                numberOfNewActivity=3
+
+                startActivityForResult(intent,3)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 
 

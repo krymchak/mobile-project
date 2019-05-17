@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val intent = Intent(this, MapActivity::class.java)
+        val intent = Intent(this, ListOfCars::class.java)
         startActivity(intent)
     }
 }

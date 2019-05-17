@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.gson.Gson
 import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
@@ -165,7 +166,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
     }
 
     private fun addMarkers() {
-        val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
+        /*val callCars = ServiceBuilder.getRentalService().getCars("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
         callCars.enqueue(object : Callback<List<CarDTO>> {
             override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
                 Log.e("call", "Failed to get list of cars")
@@ -179,17 +180,28 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
                     listOfCars.addAll(body)
                 }
             }
-        })
+        })*/
+        val size= intent.getIntExtra("size",0)
+        val gson = Gson()
+        var json : String
+        for (i in 0..size-1)
+        {
+            json = intent.getStringExtra(i.toString())
+            listOfCars.add(gson.fromJson<CarDTO>(json, CarDTO::class.java))
+        }
 
         mapFragment = supportFragmentManager.findFragmentById(R.id.gMap) as SupportMapFragment
         mapFragment.getMapAsync(OnMapReadyCallback {
             googleMap = it
 
-            val from = LatLng(51.109687, 17.058089)
-            val to = LatLng(51.103508, 17.085291)
+            for (i in 0..listOfCars.size-1)
+            {
+                val from = LatLng(51.109687+i, 17.058089)
+                val to = LatLng(51.103508, 17.085291)
 
-            googleMap.addMarker(MarkerOptions().position(from).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.s_marker))))
-            googleMap.addMarker(MarkerOptions().position(to).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.f_marker))))
+                googleMap.addMarker(MarkerOptions().position(from).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.s_marker))))
+                googleMap.addMarker(MarkerOptions().position(to).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.f_marker))))
+            }
 
         })
 
