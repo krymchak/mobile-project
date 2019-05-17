@@ -24,7 +24,7 @@ class HistoryListActivity : AppCompatActivity(), HistoryAdapter.ClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_cars)
 
-        val callCars = ServiceBuilder.getRentalService().getHistory("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFkbWluIiwiaWF0IjoxNTU3NzQ2MjU0LCJleHAiOjE1NzA3MDYyNTR9.oaSsRbNO4vio9xkvEG70L-DcJ6LsDPaRyM_hxh3uAfU")
+        val callCars = ServiceBuilder.getRentalService().getHistory("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwibG9naW4iOiJtaWtvIiwiaWF0IjoxNTU4MDg2MTIxLCJleHAiOjE1NTgxNzI1MjF9.QxBjmMlsyAfo1qobhYZteKPtyyAaRy0cwRmJplA45HA")
         callCars.enqueue(object : Callback<List<HistoryEntryDTO>> {
             override fun onFailure(call: Call<List<HistoryEntryDTO>>, t: Throwable) {
                 Log.e("call", "Failed to get history")

@@ -39,7 +39,7 @@ class HistoryAdapter(values: List<HistoryEntryDTO>, clickListener: ClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAdapter.ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.history_item, parent, false)
         return ViewHolder(itemView, clickListener)
     }
 
@@ -47,7 +47,7 @@ class HistoryAdapter(values: List<HistoryEntryDTO>, clickListener: ClickListener
     {
         var vehicle = view.findViewById(R.id.vehicle) as TextView
         var date = view.findViewById(R.id.date) as TextView
-        var price = view.findViewById(R.id.price) as TextView
+        var price = view.findViewById(R.id.cost) as TextView
 
         var clickListener: ClickListener
 
