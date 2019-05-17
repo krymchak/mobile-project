@@ -9,39 +9,70 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.mobilneprojekt.services.HistoryEntryDTO
+import com.example.mobilneprojekt.services.ServiceBuilder
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.history_item.view.*
 
-class HistoryAdapter(val items: ArrayList<HistoryItem>, val clickListener: (Int) -> Unit) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
+class HistoryAdapter(values: List<HistoryEntryDTO>, clickListener: ClickListener): RecyclerView.Adapter<HistoryAdapter.ViewHolder>()
+{
+
+    var values: List<HistoryEntryDTO>
+    var clickListener: ClickListener
+
+    init
+    {
+        this.values = values
+        this.clickListener = clickListener
+    }
+    override fun onBindViewHolder(holder: HistoryAdapter.ViewHolder, position: Int) {
+        holder.name.text = values[position].name
+        holder.type.text = values[position].category
+
+        holder.price.text = values[position].price.toString()
+        val url = "${ServiceBuilder.getUrl()}${values[position].image}"
+        Picasso.get().load(url).centerCrop().fit().into(holder.image)
+
+    }
+
+    override fun getItemCount(): Int {
+        return values.size
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAdapter.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.history_item, parent, false)
-        return ViewHolder(view)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row, parent, false)
+        return ViewHolder(itemView, clickListener)
     }
 
-    override fun getItemCount() = items.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-        holder.date.text = item.date
-        holder.startTime.text = item.startTime
-        holder.imageVehicle.setImageResource(item.vehicleImage)
-        holder.vechicleName.text = item.info.getName()
-        holder.totalTime.text = item.totalTime
-        holder.cost.text = item.info.getPrice().toString()
-        holder.v.setOnClickListener{
-            clickListener(position)
+    class ViewHolder(view: View, clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener
+    {
+        var name: TextView
+        var type : TextView
+        var price: TextView
+        var image: ImageView
+        var clickListener: ClickListener
+        init
+        {
+            name = view.findViewById(R.id.name)
+            type = view.findViewById(R.id.type)
+            price = view.findViewById(R.id.price)
+            image = view.findViewById(R.id.imageView2)
+            this.clickListener=clickListener
+            view.setOnClickListener(this)
         }
 
+        override fun onClick(view: View) {
+            clickListener.onItemClick(adapterPosition)
+        }
     }
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val date: TextView = view.date
-        val startTime: TextView = view.timeStart
-        val imageVehicle: ImageView = view.imageVehicle
-        val vechicleName: TextView = view.vehicle
-        val totalTime: TextView = view.timeTrip
-        val cost: TextView = view.cost
-        val v: View = view
+    fun update(results: List<HistoryEntryDTO>) {
+        values = results
+        notifyDataSetChanged()
+    }
+
+    interface ClickListener {
+        fun onItemClick(position: Int)
     }
 
 
