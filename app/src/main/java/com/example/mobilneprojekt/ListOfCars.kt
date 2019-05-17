@@ -60,6 +60,7 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
                 }
             }
         })
+
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -70,6 +71,8 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
     override fun onItemClick(position: Int) {
         val intent = Intent(this, DetailInfoCarActivity::class.java)
+
+        intent.putExtra("id", listOfCars[position].id)
         intent.putExtra("name", listOfCars[position].name)
         intent.putExtra("category", listOfCars[position].category)
         intent.putExtra("year", listOfCars[position].year)
