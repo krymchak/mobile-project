@@ -60,6 +60,7 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
         callCars.enqueue(object : Callback<List<CarDTO>> {
             override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
                 Log.e("call", "Failed to get list of cars")
+                logout()
             }
 
             override fun onResponse(call: Call<List<CarDTO>>, response: Response<List<CarDTO>>) {
@@ -252,14 +253,18 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
                 startActivityForResult(intent,3)
             }
             R.id.logout -> {
-                with (preferences.edit()) {
-                    putString("token", "")
-                    apply()
-                }
-                finish()
+                logout()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun logout() {
+        with (preferences.edit()) {
+            putString("token", "")
+            apply()
+        }
+        finish()
     }
 
 
