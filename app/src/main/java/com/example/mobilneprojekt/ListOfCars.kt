@@ -233,6 +233,9 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
             }
             R.id.info -> {
                 Log.v("am", "info")
+                Intent(this, ReturnCarActivity::class.java).apply {
+                    startActivity(this)
+                }
             }
             R.id.map -> {
                 val intent = Intent(this, MapActivity::class.java)
