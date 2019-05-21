@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.example.mobilneprojekt.services.CarIdDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import com.squareup.picasso.Picasso
@@ -43,15 +44,18 @@ class DetailInfoCarActivity : FragmentActivity() {
         }
     }
 
-    fun rent(_view: View)
+    fun rent(view: View)
     {
-        Log.v("click", "Button ${_view.id} pressed")
+        Log.v("click", "Button ${view.id} pressed")
         val car = CarIdDTO(id)
+        val context = this
         ServiceBuilder.getRentalService().rentCar(token, car).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 Log.v("info", "post submitted to API")
                 if (response.isSuccessful) {
                     finish()
+                } else {
+                    Toast.makeText(context,"Nie możesz wynająć samochodu (masz już wynajęty samochód lub ktoś cie uprzedził)", Toast.LENGTH_SHORT).show()
                 }
             }
 
