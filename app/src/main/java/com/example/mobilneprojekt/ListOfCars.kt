@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -34,6 +35,7 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
     var minPrice = 0
     var maxPrice = Integer.MAX_VALUE
     lateinit var preferences: SharedPreferences
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -41,11 +43,18 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
         setContentView(R.layout.list_of_cars)
         preferences = getSharedPreferences("com.herokuapp.mobilne-projekt", Context.MODE_PRIVATE)
 
+        swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).apply {
+            setOnRefreshListener {
+                loadData()
+            }
+        }
         loadData()
         val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = Adapter(emptyList(),this)
         recyclerView.adapter = adapter
+
+
     }
 
     override fun onResume() {
@@ -56,6 +65,7 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
 
     fun loadData()
     {
+        swipeRefreshLayout.isRefreshing = true
         token = preferences.getString("token", "") ?: ""
         if (token == "") {
             finish()
@@ -75,6 +85,7 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
                     listOfCars.addAll(body)
                     adapter.update(listOfCars)
                 }
+                swipeRefreshLayout.isRefreshing = false
             }
         })
 
