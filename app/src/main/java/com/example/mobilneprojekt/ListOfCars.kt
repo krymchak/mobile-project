@@ -46,7 +46,11 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = Adapter(emptyList(),this)
         recyclerView.adapter = adapter
+    }
 
+    override fun onResume() {
+        super.onResume()
+        loadData()
     }
 
 

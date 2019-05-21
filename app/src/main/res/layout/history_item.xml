@@ -19,23 +19,29 @@
         <TextView
                 android:text="Date" android:layout_marginTop="18dp" android:layout_marginStart="4dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/date" android:textSize="18sp"/>
+                android:layout_height="wrap_content" android:id="@+id/date"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
         <TextView
-                android:text="StartTime" android:layout_marginStart="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/timeStart" android:textSize="18sp"/>
+            android:id="@+id/vehicle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="18dp"
+            android:text="VehicleId+name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+
         <TextView
-                android:text="VehicleId+name" android:layout_marginTop="12dp" android:layout_marginStart="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/vehicle" android:textSize="18sp"/>
-        <TextView
-                android:text="tripTime" android:layout_marginTop="12dp" android:layout_marginStart="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/timeTrip" android:textSize="18sp"/>
-        <TextView
-                android:text="cost" android:layout_margin="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/cost" android:textSize="18sp"/>
+            android:id="@+id/cost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="18dp"
+            android:text="cost"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>

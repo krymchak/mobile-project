@@ -1,8 +1,5 @@
 package com.example.mobilneprojekt
 
-import android.content.Context
-import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,25 +9,25 @@ import android.widget.TextView
 import com.example.mobilneprojekt.services.HistoryEntryDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.history_item.view.*
 
 class HistoryAdapter(values: List<HistoryEntryDTO>, clickListener: ClickListener): RecyclerView.Adapter<HistoryAdapter.ViewHolder>()
 {
 
-    var values: List<HistoryEntryDTO>
-    var clickListener: ClickListener
+    private var values: List<HistoryEntryDTO>
+    private var clickListener: ClickListener
 
     init
     {
         this.values = values
         this.clickListener = clickListener
     }
-    override fun onBindViewHolder(holder: HistoryAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.vehicle.text = values[position].name
         holder.date.text = values[position].date
-        holder.price.text = values[position].price.toString()
+        holder.price.text = "${values[position].price}zł"
 
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
+        Picasso.get().load(url).centerCrop().fit().into(holder.image)
 
     }
 
@@ -38,23 +35,20 @@ class HistoryAdapter(values: List<HistoryEntryDTO>, clickListener: ClickListener
         return values.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.history_item, parent, false)
         return ViewHolder(itemView, clickListener)
     }
 
-    class ViewHolder(view: View, clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener
+    class ViewHolder(view: View, private var clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener
     {
         var vehicle = view.findViewById(R.id.vehicle) as TextView
         var date = view.findViewById(R.id.date) as TextView
         var price = view.findViewById(R.id.cost) as TextView
-
-        var clickListener: ClickListener
+        var image = view.findViewById(R.id.imageVehicle) as ImageView
 
         init
         {
-
-            this.clickListener=clickListener
             view.setOnClickListener(this)
         }
 

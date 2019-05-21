@@ -17,9 +17,8 @@ import retrofit2.Response
 class HistoryListActivity : AppCompatActivity(), HistoryAdapter.ClickListener {
 
     var listOfHistory = ArrayList<HistoryEntryDTO>()
-    var filterListOfCars = ArrayList<HistoryEntryDTO>()
     lateinit var adapter: HistoryAdapter
-    var token = ""
+    private var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -59,8 +58,11 @@ class HistoryListActivity : AppCompatActivity(), HistoryAdapter.ClickListener {
     override fun onItemClick(position: Int) {
         val intent = Intent(this, HistoryDetailsActivity::class.java)
         intent.putExtra("name", listOfHistory[position].name)
+        intent.putExtra("totalTime", listOfHistory[position].date)
+        intent.putExtra("price", listOfHistory[position].price)
+        intent.putExtra("image", listOfHistory[position].image)
         intent.putExtra("lat", listOfHistory[position].latitude)
-        intent.putExtra("lng", listOfHistory[position].Longitude)
+        intent.putExtra("lng", listOfHistory[position].longitude)
         startActivity(intent)
     }
 

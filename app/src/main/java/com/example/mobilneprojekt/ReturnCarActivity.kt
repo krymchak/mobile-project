@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.mobilneprojekt.services.CarDTO
 import com.example.mobilneprojekt.services.CarIdDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,6 +39,9 @@ class ReturnCarActivity : AppCompatActivity() {
                 if (body != null) {
                     id = body.id
                     setContentView(R.layout.detail_info_car)
+                    val image = findViewById<ImageView>(R.id.imageView4)
+                    val url = "${ServiceBuilder.getUrl()}${body.image}"
+                    Picasso.get().load(url).centerCrop().fit().into(image)
                     findViewById<TextView>(R.id.name).text = body.name
                     findViewById<TextView>(R.id.category).text = body.category
                     findViewById<TextView>(R.id.year).text = body.year

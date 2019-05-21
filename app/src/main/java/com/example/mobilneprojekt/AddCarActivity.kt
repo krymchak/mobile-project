@@ -75,6 +75,7 @@ class AddCarActivity : AppCompatActivity(),GoogleApiClient.ConnectionCallbacks, 
     }
 
     fun onAddCar(view: View) {
+        Log.v("click", "onAddCar pressed, id: ${view.id}")
         val name = findViewById<EditText>(R.id.editText).text.toString()
         val year = findViewById<EditText>(R.id.editText2).text.toString().toInt()
         val dmc = findViewById<EditText>(R.id.editText3).text.toString().toInt()
@@ -86,28 +87,25 @@ class AddCarActivity : AppCompatActivity(),GoogleApiClient.ConnectionCallbacks, 
         val stream = ByteArrayOutputStream()
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
         val b64Image = Base64.encodeToString(stream.toByteArray(), DEFAULT)
-//        val sb = StringBuilder()
-//        sb.append("0x")
-//        for (byte in stream.toByteArray()) {
-//            sb.append(String.format("%02X", byte))
-//        }
 
-
+        Log.d("debug", "$lat $lng")
         val car = NewCarDTO(name, year, dmc, seats, mileage, b64Image, price, sec, if (lat != null) lat!! else 0.0, if (lng != null) lng!! else 0.0)
-        Log.e("Coords", "${lat}, ${lng}")
-
         val call = ServiceBuilder.getRentalService().addCar(token, car)
-        Log.d("AC", "Enqueue")
+        Log.d("rest", "Enqueue")
 
+        val context = this
         call.enqueue(object : Callback<Void> {
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Log.e("AC", "Failed to add car")
+                Log.e("rest", "Failed to add car")
+                Toast.makeText(context,"Failed to add car", Toast.LENGTH_SHORT).show()
                 setResult(Activity.RESULT_OK, Intent().apply { putExtra("data", false) })
                 finish()
             }
 
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                Log.v("rest", "Added car")
                 setResult(Activity.RESULT_OK, Intent().apply { putExtra("data", true) })
+                Toast.makeText(context,"Added car", Toast.LENGTH_SHORT).show()
                 finish()
             }
         })

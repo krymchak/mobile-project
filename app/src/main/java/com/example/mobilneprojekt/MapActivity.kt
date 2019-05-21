@@ -181,7 +181,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
 
             for (i in 0..listOfCars.size-1)
             {
-                val position = LatLng(listOfCars[i].latitude, listOfCars[i].Longitude)
+                val position = LatLng(listOfCars[i].latitude, listOfCars[i].longitude)
                 val url = listOfCars[i].image
 
                 createCustomMarker(this, url) { bitmap ->

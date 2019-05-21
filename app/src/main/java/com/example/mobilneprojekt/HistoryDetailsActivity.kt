@@ -12,9 +12,11 @@ import android.util.DisplayMetrics
 import android.content.Context
 import de.hdodenhof.circleimageview.CircleImageView
 import android.view.LayoutInflater
+import com.example.mobilneprojekt.services.ServiceBuilder
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.*
+import com.squareup.picasso.Picasso
 
 
 class HistoryDetailsActivity: AppCompatActivity(){
@@ -26,12 +28,7 @@ class HistoryDetailsActivity: AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history_details)
 
-//        val id = intent.getStringExtra("id")
-//        //get item from DB by ID.toInt()
-//
         val from = LatLng(intent.getDoubleExtra("lat", 0.0), intent.getDoubleExtra("lng", 0.0))
-//        val item = (HistoryItem(0,0, CarsInfo("CarName", "C", 12F), "12.12.12", "12.12.12","15:30",
-//            "15:42", R.drawable.ic_launcher_background,  from, to,  "12H:12M:12S"))
 
         showItem()
 
@@ -71,8 +68,12 @@ class HistoryDetailsActivity: AppCompatActivity(){
 //        finish_time.text = item.endTime
 //        total_time.text = item.totalTime
 //        price.text = item.info.getPrice().toString()
-        imageView
+        val url = "${ServiceBuilder.getUrl()}${intent.getStringExtra("image")}"
+        Picasso.get().load(url).centerCrop().fit().into(imageView)
         vname.text = intent.getStringExtra("name")
+        totalTime.text = intent.getStringExtra("totalTime")
+        price.text = String.format("%.2fzł", intent.getFloatExtra("price", 0.0f))
+
     }
 
     fun createCustomMarker(context: Context, @DrawableRes resource: Int): Bitmap {
@@ -97,7 +98,4 @@ class HistoryDetailsActivity: AppCompatActivity(){
 
         return bitmap
     }
-
-
-
 }
