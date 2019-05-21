@@ -126,6 +126,7 @@ class FilterActivity : AppCompatActivity()
 
     private fun checkType ()
     {
+        uncheckedTypes.clear()
         for (i in 0..types.size-1)
         {
             val ID = types[i]
