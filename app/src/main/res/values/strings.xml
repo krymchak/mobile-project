@@ -19,5 +19,7 @@
     <string name="addCar">Dodaj auto</string>
     <string name="noCars">Nie masz żadnych wypożyczonych pojazdów</string>
     <string name="priceFormat">%1$.2fzł</string>
+    <string name="priceFormatString">%1$szł</string>
     <string name="ret">Zwróć</string>
+    <string name="carImage">Obraz pojazdu</string>
 </resources>

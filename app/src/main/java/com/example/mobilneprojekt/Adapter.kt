@@ -10,23 +10,21 @@ import android.widget.TextView
 import com.example.mobilneprojekt.services.CarDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import com.squareup.picasso.Picasso
-import java.io.File
 
 class Adapter(values: List<CarDTO>, clickListener: ClickListener): RecyclerView.Adapter<Adapter.ViewHolder>()
 {
-    var values: List<CarDTO>
-    var clickListener: ClickListener
+    private var values: List<CarDTO>
+    private var clickListener: ClickListener
 
     init
     {
         this.values = values
-        this.clickListener = clickListener;
+        this.clickListener = clickListener
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = values[position].name
         holder.type.text = values[position].category
-        //holder.price.text = values[position].getPrice().toString() + "$"
-        holder.price.text = values[position].price.toString()+ "$"
+        holder.price.text = "${values[position].price}zł"
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
         Picasso.get().load(url).centerCrop().fit().into(holder.image)
 
@@ -36,30 +34,24 @@ class Adapter(values: List<CarDTO>, clickListener: ClickListener): RecyclerView.
         return values.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Adapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row, parent, false)
         return ViewHolder(itemView, clickListener)
     }
 
-    class ViewHolder(view: View, clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener
+    class ViewHolder(view: View, private var clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener
     {
-        var name: TextView
-        var type : TextView
-        var price: TextView
-        var image: ImageView
-        var clickListener: ClickListener
+        var name: TextView = view.findViewById(R.id.name)
+        var type : TextView = view.findViewById(R.id.type)
+        var price: TextView = view.findViewById(R.id.price)
+        var image: ImageView = view.findViewById(R.id.imageView2)
         init
         {
-                name = view.findViewById(R.id.name)
-                type = view.findViewById(R.id.type)
-                price = view.findViewById(R.id.price)
-                image = view.findViewById(R.id.imageView2)
-                this.clickListener=clickListener
                 view.setOnClickListener(this)
         }
 
         override fun onClick(view: View) {
-            Log.d("aaaa", "onClick: $adapterPosition")
+            Log.v("click", "onClick: $adapterPosition")
             clickListener.onItemClick(adapterPosition)
         }
     }

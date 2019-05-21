@@ -17,22 +17,22 @@ import retrofit2.Response
 class DetailInfoCarActivity : FragmentActivity() {
 
     var id = 0
-    var token = ""
+    private var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.detail_info_car)
 
         id = intent.getIntExtra("id",0)
-        findViewById<TextView>(R.id.name).text=intent.getStringExtra("name")
-        findViewById<TextView>(R.id.category).text=intent.getStringExtra("category")
-        findViewById<TextView>(R.id.year).text=intent.getStringExtra("year")
-        findViewById<TextView>(R.id.seats).text=intent.getStringExtra("seats")
-        findViewById<TextView>(R.id.dmc).text=intent.getStringExtra("dmc")
-        findViewById<TextView>(R.id.mileage).text=intent.getStringExtra("mileage")
-        findViewById<TextView>(R.id.price).text=intent.getStringExtra("price")+ "$"
+        findViewById<TextView>(R.id.name).text = intent.getStringExtra("name")
+        findViewById<TextView>(R.id.category).text = intent.getStringExtra("category")
+        findViewById<TextView>(R.id.year).text = intent.getStringExtra("year")
+        findViewById<TextView>(R.id.seats).text = intent.getStringExtra("seats")
+        findViewById<TextView>(R.id.dmc).text = intent.getStringExtra("dmc")
+        findViewById<TextView>(R.id.mileage).text = intent.getStringExtra("mileage")
+        findViewById<TextView>(R.id.price).text = getString(R.string.priceFormatString, intent.getStringExtra("price"))
 
-        var image = findViewById(R.id.imageView4) as ImageView
+        val image = findViewById<ImageView>(R.id.imageView4)
         val url = "${ServiceBuilder.getUrl()}${intent.getStringExtra("image")}"
         Picasso.get().load(url).centerCrop().fit().into(image)
 
@@ -43,8 +43,9 @@ class DetailInfoCarActivity : FragmentActivity() {
         }
     }
 
-    fun rent(v: View)
+    fun rent(_view: View)
     {
+        Log.v("click", "Button ${_view.id} pressed")
         val car = CarIdDTO(id)
         ServiceBuilder.getRentalService().rentCar(token, car).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
