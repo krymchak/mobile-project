@@ -18,6 +18,6 @@
     <string name="sec">Kaucja</string>
     <string name="addCar">Dodaj auto</string>
     <string name="noCars">Nie masz żadnych wypożyczonych pojazdów</string>
-    <string name="priceFormat">%1fzł</string>
+    <string name="priceFormat">%1$.2fzł</string>
     <string name="ret">Zwróć</string>
 </resources>
