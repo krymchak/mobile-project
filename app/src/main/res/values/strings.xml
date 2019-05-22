@@ -1,4 +1,5 @@
 <resources>
+    <string name="placeholder">Placeholder</string>
     <string name="app_name">Mobilne projekt</string>
     <string-array name="seats">
         <item>2</item>
@@ -9,6 +10,7 @@
         <item>22</item>
         <item>40</item>
     </string-array>
+    <string name="noDesc">Brak opisu</string>
     <string name="name">Nazwa</string>
     <string name="year">Rocznik</string>
     <string name="dmc">Dmc</string>

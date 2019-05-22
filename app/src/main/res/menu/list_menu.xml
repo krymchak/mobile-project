@@ -22,6 +22,10 @@
         android:title="Historia"
         app:showAsAction="always" />
     <item
+        android:id="@+id/my"
+        android:title="Moje"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/map"
         android:title="Mapa"
         app:showAsAction="always" />

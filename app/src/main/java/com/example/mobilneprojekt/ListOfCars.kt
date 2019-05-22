@@ -206,18 +206,13 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
                 }
             }
             REQUEST_FILTER -> {
-                if (data == null) {
-
-                    return
+                if (data != null) {
+                    category = data.getStringArrayExtra("uncheckedTypes")
+                    size = data.getIntExtra("size", 0)
+                    minPrice = data.getIntExtra("minPrice", 0)
+                    maxPrice = data.getIntExtra("maxPrice", 0)
+                    filterList(minPrice, maxPrice, category, size)
                 }
-                //if(resultCode==1)
-                //{
-                category = data.getStringArrayExtra("uncheckedTypes")
-                size = data.getIntExtra("size", 0)
-                minPrice = data.getIntExtra("minPrice", 0)
-                maxPrice = data.getIntExtra("maxPrice", 0)
-                filterList(minPrice, maxPrice, category, size)
-                //}
             }
         }
     }
@@ -256,11 +251,10 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
             R.id.map -> {
                 val intent = Intent(this, MapActivity::class.java)
                 intent.putExtra("size", listOfCars.size)
-                val gson = Gson()
                 var json : String
-                for (i in 0..listOfCars.size-1)
+                for (i in 0 until listOfCars.size)
                 {
-                    json = gson.toJson(listOfCars[i])
+                    json = Gson().toJson(listOfCars[i])
                     intent.putExtra(i.toString(), json)
                 }
                 numberOfNewActivity=3
@@ -269,6 +263,12 @@ class ListOfCars : AppCompatActivity(), Adapter.ClickListener {
             }
             R.id.logout -> {
                 logout()
+            }
+            R.id.my -> {
+                Log.v("am", "my")
+                Intent(this, MyCarsActivity::class.java).apply {
+                    startActivity(this)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
