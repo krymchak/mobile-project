@@ -24,4 +24,15 @@
     <string name="priceFormatString">%1$szł</string>
     <string name="ret">Zwróć</string>
     <string name="carImage">Obraz pojazdu</string>
+    <string name="title_activity_list_of_cars">Mobilne projekt</string>
+    <string name="navigation_drawer_open">Otwórz nawigacje</string>
+    <string name="navigation_drawer_close">Zamknij nawigacje</string>
+    <string name="nav_header_title">Mobilne projekt zespołowy</string>
+    <string name="nav_header_desc">Nagłówek</string>
+
+    <string name="menu_rented">Wynajęty pojazdy</string>
+    <string name="menu_add">Dodaj pojazd</string>
+    <string name="menu_history">Historia</string>
+    <string name="menu_my">Moje pojazdy</string>
+    <string name="menu_logout">Wyloguj</string>
 </resources>

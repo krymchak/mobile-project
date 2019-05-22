@@ -3,7 +3,6 @@
     package="com.example.mobilneprojekt">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,8 +12,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyCarsActivity"></activity>
-        <activity android:name=".ReturnCarActivity"></activity>
+        <activity
+            android:name=".ListOfCarsActivity"
+            android:label="@string/title_activity_list_of_cars"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".MyCarsActivity" />
+        <activity android:name=".ReturnCarActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -27,7 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FilterActivity"></activity>
+        <activity android:name=".FilterActivity" />
         <activity android:name=".ListOfCars" />
         <activity android:name=".DetailInfoCarActivity" />
         <activity android:name=".HistoryListActivity" />

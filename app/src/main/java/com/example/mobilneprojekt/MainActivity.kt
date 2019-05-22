@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
     fun reroute(){
         Toast.makeText(this, "Logged In", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, ListOfCars::class.java)
+        val intent = Intent(this, ListOfCarsActivity::class.java)
         startActivity(intent)
     }
 }
