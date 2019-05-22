@@ -24,6 +24,8 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val REQUEST_TAKE_PHOTO = 101
 const val REQUEST_ADD_CAR = 102
@@ -36,11 +38,14 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     private var numberOfNewActivity = 2
     private lateinit var token : String
     private var category: Array<String> = arrayOf()
-    private var size = Integer.MAX_VALUE
+    private var size = 0
     private var minPrice = 0
     private var maxPrice = Integer.MAX_VALUE
+    private var sorted = false
+    private var desc = false
     private lateinit var preferences: SharedPreferences
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,15 +87,19 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         recyclerView.adapter = adapter
         swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).apply {
             setOnRefreshListener {
-                loadData()
+                onRefresh()
             }
         }
         loadData()
     }
 
+    private fun onRefresh() {
+        loadData()
+    }
+
     override fun onResume() {
         super.onResume()
-        loadData()
+        onRefresh()
     }
 
     override fun onBackPressed() {
@@ -125,10 +134,11 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             REQUEST_FILTER -> {
                 if (data != null) {
                     category = data.getStringArrayExtra("uncheckedTypes")
+                    Log.d("toto", Arrays.toString(category))
                     size = data.getIntExtra("size", 0)
                     minPrice = data.getIntExtra("minPrice", 0)
                     maxPrice = data.getIntExtra("maxPrice", 0)
-                    filterList(minPrice, maxPrice, category, size)
+                    filterList()
                 }
             }
         }
@@ -146,11 +156,15 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.sortByPriceFromSmallest -> {
-                sortByPriceFromSmallest()
+                sorted = true
+                desc = false
+                onRefresh()
                 true
             }
             R.id.sortByPriceFromBiggest -> {
-                sortByPriceFromBiggest()
+                sorted = true
+                desc = true
+                onRefresh()
                 true
             }
             R.id.Filter -> {
@@ -245,8 +259,7 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
-    private fun filterBySize(size: Int)
-    {
+    private fun filterBySize(size: Int) {
         var i = 0
         while (i < listOfCars.size) {
             if(listOfCars[i].seats < size) {
@@ -263,28 +276,33 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             if(listOfCars[i].price < minPrice.toFloat() || listOfCars[i].price > maxPrice) {
                 listOfCars.removeAt(i)
                 i--
-
             }
             i++
         }
     }
 
-    private fun filterList(minPrice: Int, maxPrice: Int, category: Array<String>, size: Int) {
-        listOfCars = ArrayList(listOfCars)
+    private fun filterList() {
         filterByCategory(category)
         filterBySize(size)
         filterByPrice(minPrice, maxPrice)
+        if (sorted) {
+            if (desc) {
+                sortByPriceFromBiggest()
+            } else {
+                sortByPriceFromSmallest()
+            }
+        }
         adapter.update(listOfCars)
     }
 
     private fun sortByPriceFromBiggest() {
-        val list = listOfCars.sortedWith(compareByDescending { it.price })
-        adapter.update(list)
+        listOfCars.sortWith(compareByDescending { it.price })
+        adapter.update(listOfCars)
     }
 
     private fun sortByPriceFromSmallest() {
-        val list = listOfCars.sortedWith(compareBy { it.price })
-        adapter.update(list)
+        listOfCars.sortWith(compareBy { it.price })
+        adapter.update(listOfCars)
     }
 
     private fun loadData() {
@@ -307,6 +325,7 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                     listOfCars.clear()
                     listOfCars.addAll(body)
                     adapter.update(listOfCars)
+                    filterList()
                 }
                 swipeRefreshLayout.isRefreshing = false
             }

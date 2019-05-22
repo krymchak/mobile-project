@@ -53,6 +53,7 @@ class DetailInfoCarActivity : FragmentActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 Log.v("info", "post submitted to API")
                 if (response.isSuccessful) {
+                    Toast.makeText(context,"Samochód został wynajęty)", Toast.LENGTH_SHORT).show()
                     finish()
                 } else {
                     Toast.makeText(context,"Nie możesz wynająć samochodu (masz już wynajęty samochód lub ktoś cie uprzedził)", Toast.LENGTH_SHORT).show()

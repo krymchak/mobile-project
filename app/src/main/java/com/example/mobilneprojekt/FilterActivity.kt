@@ -16,7 +16,7 @@ class FilterActivity : AppCompatActivity()
     val types = arrayOf("A", "B", "C", "D")
 
     var size = 40
-    var uncheckedTypes= ArrayList<String>()
+    var uncheckedTypes = ArrayList<String>()
 
     var minPrice = 0
     var maxPrice = MAX_VALUE
@@ -40,10 +40,10 @@ class FilterActivity : AppCompatActivity()
         }
     }
 
-    fun setData()
+    private fun setData()
     {
         val array = intent.getStringArrayExtra("category")
-        for (i in 0..array.size-1)
+        for (i in 0 until array.size)
         {
             uncheckedTypes.add(array[i])
         }
@@ -51,28 +51,27 @@ class FilterActivity : AppCompatActivity()
         minPrice= intent.getIntExtra("minPrice",0)
         maxPrice= intent.getIntExtra("maxPrice",MAX_VALUE)
 
-        for (i in 0..types.size-1)
+        for (i in 0 until types.size)
         {
-
-            for (j in 0..uncheckedTypes.size-1)
+            for (j in 0 until uncheckedTypes.size)
             {
-                if (types[i]==uncheckedTypes[j])
+                if (types[i] == uncheckedTypes[j])
                 {
-                    val ID = types[i]
-                    val resID = resources.getIdentifier("type$ID", "id", packageName)
-                    val checkBox = findViewById(resID) as CheckBox
-                    checkBox.isChecked=false
+                    val id = types[i]
+                    val resID = resources.getIdentifier("type$id", "id", packageName)
+                    val checkBox = findViewById<CheckBox>(resID)
+                    checkBox.isChecked = false
                 }
             }
 
         }
 
         if (minPrice!=0) {
-            val min = findViewById(R.id.min) as EditText
+            val min = findViewById<EditText>(R.id.min)
             min.setText(minPrice.toString(), TextView.BufferType.EDITABLE)
         }
         if (maxPrice!= MAX_VALUE) {
-            val max = findViewById(R.id.max) as EditText
+            val max = findViewById<EditText>(R.id.max)
             max.setText(maxPrice.toString(), TextView.BufferType.EDITABLE)
         }
 
@@ -109,16 +108,15 @@ class FilterActivity : AppCompatActivity()
 
     private fun borderOfPrice()
     {
-        val min = findViewById(R.id.min) as EditText
+        val min = findViewById<EditText>(R.id.min)
         val minValue = min.text.toString()
-        if(minValue.trim().length>0)
-        {
+        if(minValue.trim().isNotEmpty()) {
             minPrice = minValue.toInt()
         }
 
-        val max = findViewById(R.id.max) as EditText
+        val max = findViewById<EditText>(R.id.max)
         val maxValue = max.text.toString()
-        if(maxValue.trim().length>0)
+        if(maxValue.trim().isNotEmpty())
         {
             maxPrice = maxValue.toInt()
         }
@@ -126,11 +124,12 @@ class FilterActivity : AppCompatActivity()
 
     private fun checkType ()
     {
-        for (i in 0..types.size-1)
+        uncheckedTypes.clear()
+        for (i in 0 until types.size)
         {
             val ID = types[i]
             val resID = resources.getIdentifier("type$ID", "id", packageName)
-            val checkBox = findViewById(resID) as CheckBox
+            val checkBox = findViewById<CheckBox>(resID)
             if (!checkBox.isChecked)
             {
                 uncheckedTypes.add(types[i])
