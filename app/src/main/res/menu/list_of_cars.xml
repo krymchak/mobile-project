@@ -10,27 +10,8 @@
         android:id="@+id/Filter"
         android:title="Filtruj" />
     <item
-        android:id="@+id/info"
-        android:title="i"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/add"
-        android:title="+"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/history"
-        android:title="Historia"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/my"
-        android:title="Moje"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/map"
+        android:icon="@android:drawable/ic_menu_mapmode"
         android:title="Mapa"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/logout"
-        android:title="Wyloguj"
-        app:showAsAction="never" />
 </menu>

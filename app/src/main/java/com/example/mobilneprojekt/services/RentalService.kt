@@ -25,6 +25,9 @@ interface RentalService {
     @GET("sec/rental")
     fun getRental(@Header("Authorization") token: String): Call<CarDTO?>
 
+    @GET("sec/myCars")
+    fun getMyCars(@Header("Authorization") token: String): Call<List<CarDTO>>
+
 }
 
 data class CarDTO(val id: Int, val name: String, val year: String, val dmc: Int, val seats: Int, val mileage: Int, val category: String, val image: String, val owner: String, val price: Float, val security: Float, val latitude: Double, val longitude: Double)
