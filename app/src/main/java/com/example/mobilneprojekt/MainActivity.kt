@@ -2,6 +2,8 @@ package com.example.mobilneprojekt
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -18,14 +20,12 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    override fun onResume() {
-        super.onResume()
-        val preferences = getSharedPreferences("com.herokuapp.mobilne-projekt", Context.MODE_PRIVATE)
-        if (preferences.getString("token", "") != "") {
-            reroute()
-            return
-        }
+    private lateinit var preferences: SharedPreferences
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        preferences = getSharedPreferences("com.herokuapp.mobilne-projekt", Context.MODE_PRIVATE)
 
         usernameLog.visibility = View.VISIBLE
         passLog.visibility = View.VISIBLE
@@ -74,17 +74,37 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onResponse(call: Call<String>, response: Response<String>) {
                     Log.d("onSucc", "Success")
-                    with(preferences.edit()) {
-                        putString("token", response.body())
-                        apply()
+                    if (response.body() != null) {
+                        with(preferences.edit()) {
+                            putString("token", response.body())
+                            apply()
+                        }
+                        reroute()
+                    } else {
+                        Log.e("onSucc", "error")
                     }
-
-                    reroute()
                 }
             })
-
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        preferences = getSharedPreferences("com.herokuapp.mobilne-projekt", Context.MODE_PRIVATE)
+        if (preferences.getString("token", "") != "") {
+            reroute()
+            return
+        }
+        showLoginLayout()
+    }
+
+    override fun onBackPressed() {
+        // if registration is visible then go to login else close app
+        if (registration_layout.visibility == View.VISIBLE) {
+            showLoginLayout()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun showRegisterLayout() {
@@ -101,6 +121,9 @@ class MainActivity : AppCompatActivity() {
         passLog.visibility = View.VISIBLE
         buttonLog.visibility = View.VISIBLE
         regLog.visibility = View.VISIBLE
+
+        usernameLog.text.clear()
+        passLog.text.clear()
     }
 
     fun fail() {

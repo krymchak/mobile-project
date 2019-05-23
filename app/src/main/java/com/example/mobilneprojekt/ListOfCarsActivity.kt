@@ -103,11 +103,10 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     override fun onBackPressed() {
+        // On back pressed close drawer or do nothing
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
         }
     }
 
