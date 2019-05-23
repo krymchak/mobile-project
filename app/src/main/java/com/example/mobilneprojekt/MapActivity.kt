@@ -207,7 +207,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
                     intent.putExtra("image", listOfCars[position].image)
                     startActivityForResult(intent,2)
 
-                    return false
+                    return true
                 }
             })
 
