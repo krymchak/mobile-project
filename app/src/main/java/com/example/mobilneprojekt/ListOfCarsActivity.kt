@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
+import android.widget.Toast
 import com.example.mobilneprojekt.services.CarDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import com.google.gson.Gson
@@ -107,6 +108,8 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            Toast.makeText(this, "Aby się wylogować wciśnij wyloguj w menu", Toast.LENGTH_LONG).show()
         }
     }
 

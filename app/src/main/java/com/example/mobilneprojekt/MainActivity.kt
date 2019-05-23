@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
                         reroute()
                     } else {
                         Log.e("onSucc", "error")
+                        fail()
                     }
                 }
             })
