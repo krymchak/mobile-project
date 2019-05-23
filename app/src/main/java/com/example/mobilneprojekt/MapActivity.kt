@@ -40,6 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 const val REQUEST_LOCATION_CODE = 101
 
+@Suppress("DEPRECATION")
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -230,12 +231,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
                 intent.putExtra("image", listOfCars[position].image)
                 startActivityForResult(intent, 2)
 
-                false
+                true
             }
         }
     }
 
-    @Suppress("DEPRECATION")
     private fun createCustomMarker(context: Context, url: String, callback: (Bitmap) -> Unit) {
 
         val marker = (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
