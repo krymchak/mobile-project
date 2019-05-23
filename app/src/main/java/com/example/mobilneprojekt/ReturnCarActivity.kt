@@ -56,6 +56,7 @@ class ReturnCarActivity : AppCompatActivity() {
                             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                                 finish()
                             }
+
                             override fun onFailure(call: Call<Void>, t: Throwable) {
                                 Log.e("rest", "Failed to return car")
                             }

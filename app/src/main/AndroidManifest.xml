@@ -15,7 +15,7 @@
         <activity
             android:name=".ListOfCarsActivity"
             android:label="@string/title_activity_list_of_cars"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MyCarsActivity" />
         <activity android:name=".ReturnCarActivity" />
 
@@ -31,7 +31,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".FilterActivity" />
-        <activity android:name=".ListOfCars" />
         <activity android:name=".DetailInfoCarActivity" />
         <activity android:name=".HistoryListActivity" />
         <activity android:name=".HistoryDetailsActivity" />

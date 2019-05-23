@@ -19,25 +19,28 @@ import com.google.android.gms.maps.model.*
 import com.squareup.picasso.Picasso
 
 
-class HistoryDetailsActivity: AppCompatActivity(){
+class HistoryDetailsActivity : AppCompatActivity() {
 
-    lateinit var mapFragment: SupportMapFragment
-    lateinit var googleMap: GoogleMap
+    private lateinit var mapFragment: SupportMapFragment
+    private lateinit var googleMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history_details)
 
         val from = LatLng(intent.getDoubleExtra("lat", 0.0), intent.getDoubleExtra("lng", 0.0))
-
         showItem()
 
         mapFragment = supportFragmentManager.findFragmentById(R.id.gMapFragment) as SupportMapFragment
-        mapFragment.getMapAsync(OnMapReadyCallback {
+        mapFragment.getMapAsync {
             googleMap = it
-
-            googleMap.addMarker(MarkerOptions().position(from).icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this, R.drawable.s_marker))))
-
+            googleMap.addMarker(
+                MarkerOptions().position(from).icon(
+                    BitmapDescriptorFactory.fromBitmap(
+                        createCustomMarker(this, R.drawable.s_marker)
+                    )
+                )
+            )
             val builder = LatLngBounds.Builder()
             builder.include(from)
             val bounds = builder.build()
@@ -45,29 +48,12 @@ class HistoryDetailsActivity: AppCompatActivity(){
             googleMap.moveCamera(cu)
             googleMap.uiSettings.isMapToolbarEnabled = false
             googleMap.uiSettings.setAllGesturesEnabled(false)
-
-            googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
-                override fun onMarkerClick(marker: Marker): Boolean {
-                    return true
-                }
-            })
-        })
+            googleMap.setOnMarkerClickListener { true }
+        }
 
     }
 
-
-    fun showItem() {
-//        imageView.setImageResource(item.vehicleImage)
-//        vname.text = item.info.getName()
-//        id.text = item.id.toString()
-//        date_start.text = item.date
-//        start_time.text = item.startTime
-//        start_coords.text = item.fromCoords.latitude.toString() + ", " + item.fromCoords.longitude.toString()
-//        finish_coords.text = item.toCoords.latitude.toString() + ", " + item.toCoords.longitude.toString()
-//        finish_date.text = item.finishDate
-//        finish_time.text = item.endTime
-//        total_time.text = item.totalTime
-//        price.text = item.info.getPrice().toString()
+    private fun showItem() {
         val url = "${ServiceBuilder.getUrl()}${intent.getStringExtra("image")}"
         Picasso.get().load(url).centerCrop().fit().into(imageView)
         vname.text = intent.getStringExtra("name")
@@ -76,8 +62,8 @@ class HistoryDetailsActivity: AppCompatActivity(){
 
     }
 
-    fun createCustomMarker(context: Context, @DrawableRes resource: Int): Bitmap {
-
+    @Suppress("DEPRECATION")
+    private fun createCustomMarker(context: Context, @DrawableRes resource: Int): Bitmap {
         val marker = (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
             R.layout.custom_marker_layout,
             null

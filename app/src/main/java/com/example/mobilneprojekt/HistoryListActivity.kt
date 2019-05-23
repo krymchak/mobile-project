@@ -20,8 +20,7 @@ class HistoryListActivity : AppCompatActivity(), HistoryAdapter.ClickListener {
     lateinit var adapter: HistoryAdapter
     private var token = ""
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_of_cars)
 
@@ -51,7 +50,7 @@ class HistoryListActivity : AppCompatActivity(), HistoryAdapter.ClickListener {
 
         val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = HistoryAdapter(emptyList(),this)
+        adapter = HistoryAdapter(emptyList(), this, this)
         recyclerView.adapter = adapter
     }
 
@@ -65,8 +64,4 @@ class HistoryListActivity : AppCompatActivity(), HistoryAdapter.ClickListener {
         intent.putExtra("lng", listOfHistory[position].longitude)
         startActivity(intent)
     }
-
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.example.mobilneprojekt
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,23 +12,14 @@ import com.example.mobilneprojekt.services.CarDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import com.squareup.picasso.Picasso
 
-class Adapter(values: List<CarDTO>, clickListener: ClickListener): RecyclerView.Adapter<Adapter.ViewHolder>()
+class Adapter(private var values: List<CarDTO>, private var clickListener: ClickListener, private var context: Context): RecyclerView.Adapter<Adapter.ViewHolder>()
 {
-    private var values: List<CarDTO>
-    private var clickListener: ClickListener
-
-    init
-    {
-        this.values = values
-        this.clickListener = clickListener
-    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = values[position].name
         holder.type.text = values[position].category
-        holder.price.text = "${values[position].price}zł"
+        holder.price.text = context.getString(R.string.priceFormat, values[position].price)
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
         Picasso.get().load(url).centerCrop().fit().into(holder.image)
-
     }
 
     override fun getItemCount(): Int {

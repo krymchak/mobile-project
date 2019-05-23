@@ -19,28 +19,32 @@
             <CheckBox
                     android:text="A"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/typeA" android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                android:layout_weight="1"
                     android:checked="true"/>
             <CheckBox
                     android:text="B"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/typeB" android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                android:layout_weight="1"
                     android:checked="true"/>
             <CheckBox
                     android:text="C"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/typeC" android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                android:layout_weight="1"
                     android:checked="true"/>
             <CheckBox
                     android:text="D"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/typeD" android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                android:layout_weight="1"
                     android:checked="true"/>
         </LinearLayout>
         <TextView
                 android:text="Minimalna liczba miejsc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/textView2"/>
+                android:layout_height="wrap_content" />
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -55,7 +59,7 @@
         <TextView
                 android:text="@string/common_google_play_services_enable_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/textView3"/>
+                android:layout_height="wrap_content" />
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -76,6 +80,7 @@
         <Button
                 android:text="zastosuj"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/button" android:onClick="onClick"/>
+                android:layout_height="wrap_content"
+            android:onClick="onClick"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

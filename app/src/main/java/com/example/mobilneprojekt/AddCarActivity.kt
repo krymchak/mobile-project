@@ -1,7 +1,6 @@
 package com.example.mobilneprojekt
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -35,10 +34,11 @@ import java.io.ByteArrayOutputStream
 const val UPDATE_INTERVAL = (10 * 1000).toLong()
 const val FASTEST_INTERVAL: Long = 10000
 
-class AddCarActivity : AppCompatActivity(),GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
+class AddCarActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks,
+    GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
-    private var imageBitmap : Bitmap? = null
-    private lateinit var token : String
+    private var imageBitmap: Bitmap? = null
+    private lateinit var token: String
 
     private var mGoogleApiClient: GoogleApiClient? = null
     private var mLocation: Location? = null
@@ -80,21 +80,32 @@ class AddCarActivity : AppCompatActivity(),GoogleApiClient.ConnectionCallbacks, 
         val dmc = findViewById<EditText>(R.id.editText3).text.toString().toInt()
         val seats = findViewById<EditText>(R.id.editText4).text.toString().toInt()
         val mileage = findViewById<EditText>(R.id.editText5).text.toString().toInt()
-        val price =  findViewById<EditText>(R.id.editText6).text.toString().toFloat()
+        val price = findViewById<EditText>(R.id.editText6).text.toString().toFloat()
         val sec = findViewById<EditText>(R.id.editText7).text.toString().toFloat()
 
         val stream = ByteArrayOutputStream()
         imageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
         val b64Image = Base64.encodeToString(stream.toByteArray(), DEFAULT)
 
-        val car = NewCarDTO(name, year, dmc, seats, mileage, b64Image, price, sec, if (lat != null) lat!! else 0.0, if (lng != null) lng!! else 0.0)
+        val car = NewCarDTO(
+            name,
+            year,
+            dmc,
+            seats,
+            mileage,
+            b64Image,
+            price,
+            sec,
+            if (lat != null) lat!! else 0.0,
+            if (lng != null) lng!! else 0.0
+        )
         val call = ServiceBuilder.getRentalService().addCar(token, car)
 
         val context = this
         call.enqueue(object : Callback<Void> {
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Log.e("rest", "Failed to add car")
-                Toast.makeText(context,"Failed to add car", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Failed to add car", Toast.LENGTH_SHORT).show()
                 setResult(Activity.RESULT_OK, Intent().apply { putExtra("data", false) })
                 finish()
             }
@@ -102,7 +113,7 @@ class AddCarActivity : AppCompatActivity(),GoogleApiClient.ConnectionCallbacks, 
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 Log.v("rest", "Added car")
                 setResult(Activity.RESULT_OK, Intent().apply { putExtra("data", true) })
-                Toast.makeText(context,"Added car", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Added car", Toast.LENGTH_SHORT).show()
                 finish()
             }
         })
@@ -112,13 +123,21 @@ class AddCarActivity : AppCompatActivity(),GoogleApiClient.ConnectionCallbacks, 
     private val isLocationEnabled: Boolean
         get() {
             locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            return locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            return locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager!!.isProviderEnabled(
+                LocationManager.NETWORK_PROVIDER
+            )
         }
 
     @Suppress("DEPRECATION")
-    @SuppressLint("MissingPermission")
     override fun onConnected(p0: Bundle?) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             return
         }
 
@@ -158,18 +177,25 @@ class AddCarActivity : AppCompatActivity(),GoogleApiClient.ConnectionCallbacks, 
     }
 
     @Suppress("DEPRECATION")
-    @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
         mLocationRequest = LocationRequest.create()
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
             .setInterval(UPDATE_INTERVAL)
             .setFastestInterval(FASTEST_INTERVAL)
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             return
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
-            mLocationRequest, this)
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+            mGoogleApiClient,
+            mLocationRequest, this
+        )
     }
 
     override fun onLocationChanged(location: Location) {
