@@ -35,7 +35,7 @@ class DetailInfoCarActivity : FragmentActivity() {
 
         val image = findViewById<ImageView>(R.id.imageView4)
         val url = "${ServiceBuilder.getUrl()}${intent.getStringExtra("image")}"
-        Picasso.get().load(url).placeholder(R.drawable.load).centerCrop().fit().into(image)
+        Picasso.get().load(url).centerCrop().fit().into(image)
 
         val preferences = getSharedPreferences("com.herokuapp.mobilne-projekt", Context.MODE_PRIVATE)
         token = preferences.getString("token", "") ?: ""

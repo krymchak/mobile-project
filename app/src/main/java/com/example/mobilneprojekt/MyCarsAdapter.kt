@@ -24,7 +24,7 @@ class MyCarsAdapter(
         holder.type.text = values[position].category
         holder.price.text = context.getString(R.string.priceFormat, values[position].price)
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
-        Picasso.get().load(url).placeholder(R.drawable.load).centerCrop().fit().into(holder.image)
+        Picasso.get().load(url).centerCrop().fit().into(holder.image)
 
         holder.rentedView.text = if (values[position].isRented) context.getString(R.string.rented) else ""
     }
