@@ -18,7 +18,7 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" android:id="@+id/list"
-                android:background="#eaebed" android:layout_weight="1"/>
+                android:background="@color/whites" android:layout_weight="1"/>
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 

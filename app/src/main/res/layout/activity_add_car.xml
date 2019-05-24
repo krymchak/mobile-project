@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                                             android:layout_height="match_parent">
+                                             android:layout_height="match_parent"
+                                             android:background="@drawable/background">
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent" tools:layout_editor_absoluteY="0dp"
@@ -10,6 +11,7 @@
                                                      android:layout_height="wrap_content"
         >
             <EditText
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
@@ -28,9 +30,11 @@
                 android:layout_marginEnd="8dp"
                 android:onClick="onAddCar"
                 android:text="@string/addCar"
+                android:background="@drawable/rounded_button"
+                android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText7" />
+                app:layout_constraintTop_toBottomOf="@+id/editText7"/>
             <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,7 +96,7 @@
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/editText6" android:hint="@string/sec"/>
             <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content" tools:srcCompat="@tools:sample/avatars"
                     android:id="@+id/carImage"
                     android:layout_marginTop="8dp"
