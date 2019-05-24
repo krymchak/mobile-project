@@ -3,7 +3,6 @@ package com.example.mobilneprojekt
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -13,13 +12,11 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.support.annotation.DrawableRes
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -27,43 +24,46 @@ import com.example.mobilneprojekt.services.CarDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.*
+import com.google.android.gms.location.LocationListener
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import java.lang.Exception
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
+const val REQUEST_LOCATION_CODE = 101
+
+@Suppress("DEPRECATION")
+class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+    GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private var service: LocationManager? = null
     private var enabled: Boolean? = null
     private var mLocationRequest: LocationRequest? = null
     private var mGoogleApiClient: GoogleApiClient? = null
     private var mLastLocation: Location? = null
-    private var firtLocation = false
+    private var firstLocation = false
     private lateinit var mMap: GoogleMap
-    private var REQUEST_LOCATION_CODE = 101
 
-    lateinit var mapFragment: SupportMapFragment
-    lateinit var googleMap: GoogleMap
+    private lateinit var mapFragment: SupportMapFragment
+    private lateinit var googleMap: GoogleMap
 
-    var listOfCars = ArrayList<CarDTO>()
+    private var listOfCars = ArrayList<CarDTO>()
 
     override fun onLocationChanged(location: Location?) {
         mLastLocation = location
 
-        if (!firtLocation) {
+        if (!firstLocation) {
             val latLng = LatLng(location!!.latitude, location.longitude)
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
-            firtLocation = true
+            firstLocation = true
         }
     }
 
@@ -74,10 +74,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
         mLocationRequest!!.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
 
         if (!enabled!!) {
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
         }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
         }
     }
@@ -103,8 +107,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
         mMap = googleMap
         mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 buildGoogleApiClient()
                 mMap.isMyLocationEnabled = true
             } else {
@@ -134,7 +142,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
         when (requestCode) {
             REQUEST_LOCATION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
                         if (mGoogleApiClient == null) {
                             buildGoogleApiClient()
                         }
@@ -149,74 +161,82 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
     }
 
     private fun checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 AlertDialog.Builder(this)
                     .setTitle("Location Permission Needed")
                     .setMessage("This app needs the Location permission, please accept to use location functionality")
-                    .setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-                        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_CODE)
-                    })
+                    .setPositiveButton("OK") { _, _ ->
+                        ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                            REQUEST_LOCATION_CODE
+                        )
+                    }
                     .create()
                     .show()
 
-            } else ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_CODE)
+            } else ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_LOCATION_CODE
+            )
         }
     }
 
     private fun addMarkers() {
 
-        val size= intent.getIntExtra("size",0)
+        val size = intent.getIntExtra("size", 0)
         val gson = Gson()
-        var json : String
-        for (i in 0..size-1)
-        {
+        var json: String
+        for (i in 0 until size) {
             json = intent.getStringExtra(i.toString())
             listOfCars.add(gson.fromJson<CarDTO>(json, CarDTO::class.java))
         }
 
         mapFragment = supportFragmentManager.findFragmentById(R.id.gMap) as SupportMapFragment
-        mapFragment.getMapAsync(OnMapReadyCallback {
+        mapFragment.getMapAsync {
             googleMap = it
 
-            for (i in 0..listOfCars.size-1)
-            {
+            for (i in 0 until listOfCars.size) {
                 val position = LatLng(listOfCars[i].latitude, listOfCars[i].longitude)
                 val url = listOfCars[i].image
 
                 createCustomMarker(this, url) { bitmap ->
-                    googleMap.addMarker(MarkerOptions().position(position).title(i.toString()).icon(BitmapDescriptorFactory.fromBitmap(bitmap)))
+                    googleMap.addMarker(
+                        MarkerOptions().position(position).title(i.toString()).icon(
+                            BitmapDescriptorFactory.fromBitmap(bitmap)
+                        )
+                    )
                 }
 
             }
 
-            googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
-                override fun onMarkerClick(marker: Marker): Boolean {
+            googleMap.setOnMarkerClickListener { marker ->
+                val position = marker.title.toInt()
+                val intent = Intent(baseContext, DetailInfoCarActivity::class.java)
 
-                    val position = marker.title.toInt()
-                    val intent = Intent(baseContext, DetailInfoCarActivity::class.java)
+                intent.putExtra("id", listOfCars[position].id)
+                intent.putExtra("name", listOfCars[position].name)
+                intent.putExtra("category", listOfCars[position].category)
+                intent.putExtra("year", listOfCars[position].year)
+                intent.putExtra("seats", listOfCars[position].seats.toString())
+                intent.putExtra("dmc", listOfCars[position].dmc.toString())
+                intent.putExtra("mileage", listOfCars[position].mileage.toString())
+                intent.putExtra("price", listOfCars[position].price.toString())
+                intent.putExtra("image", listOfCars[position].image)
+                startActivityForResult(intent, 2)
 
-                    intent.putExtra("id", listOfCars[position].id)
-                    intent.putExtra("name", listOfCars[position].name)
-                    intent.putExtra("category", listOfCars[position].category)
-                    intent.putExtra("year", listOfCars[position].year)
-                    intent.putExtra("seats", listOfCars[position].seats.toString())
-                    intent.putExtra("dmc", listOfCars[position].dmc.toString())
-                    intent.putExtra("mileage", listOfCars[position].mileage.toString())
-                    intent.putExtra("price", listOfCars[position].price.toString())
-                    intent.putExtra("image", listOfCars[position].image)
-                    startActivityForResult(intent,2)
-
-                    return false
-                }
-            })
-
-
-        })
-
+                true
+            }
+        }
     }
 
-    fun createCustomMarker(context: Context, url: String, callback: (Bitmap) -> Unit) {
+    private fun createCustomMarker(context: Context, url: String, callback: (Bitmap) -> Unit) {
 
         val marker = (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
             R.layout.custom_marker_layout,
@@ -237,7 +257,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
         marker.buildDrawingCache()
 
 
-        Picasso.get().load(image).into(markerImage, object: com.squareup.picasso.Callback {
+        Picasso.get().load(image).into(markerImage, object : com.squareup.picasso.Callback {
             override fun onSuccess() {
                 val bitmap = Bitmap.createBitmap(marker.measuredWidth, marker.measuredHeight, Bitmap.Config.ARGB_8888)
                 val canvas = Canvas(bitmap)
@@ -247,8 +267,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
 
             override fun onError(e: Exception?) {
             }
-
         })
     }
-
 }

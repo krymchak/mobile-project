@@ -1,5 +1,6 @@
 package com.example.mobilneprojekt
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,20 +12,16 @@ import com.example.mobilneprojekt.services.CarDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import com.squareup.picasso.Picasso
 
-class MyCarsAdapter(values: List<CarDTO>, clickListener: ClickListener): RecyclerView.Adapter<MyCarsAdapter.ViewHolder>()
-{
-    private var values: List<CarDTO>
-    private var clickListener: ClickListener
+class MyCarsAdapter(
+    private var values: List<CarDTO>,
+    private var clickListener: ClickListener,
+    private var context: Context
+) : RecyclerView.Adapter<MyCarsAdapter.ViewHolder>() {
 
-    init
-    {
-        this.values = values
-        this.clickListener = clickListener
-    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = values[position].name
         holder.type.text = values[position].category
-        holder.price.text = "${values[position].price}zł"
+        holder.price.text = context.getString(R.string.priceFormat, values[position].price)
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
         Picasso.get().load(url).centerCrop().fit().into(holder.image)
     }
@@ -38,15 +35,14 @@ class MyCarsAdapter(values: List<CarDTO>, clickListener: ClickListener): Recycle
         return ViewHolder(itemView, clickListener)
     }
 
-    class ViewHolder(view: View, private var clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener
-    {
+    class ViewHolder(view: View, private var clickListener: ClickListener) : RecyclerView.ViewHolder(view),
+        View.OnClickListener {
         var name: TextView = view.findViewById(R.id.name)
-        var type : TextView = view.findViewById(R.id.type)
+        var type: TextView = view.findViewById(R.id.type)
         var price: TextView = view.findViewById(R.id.price)
         var image: ImageView = view.findViewById(R.id.imageView2)
 
-        init
-        {
+        init {
             view.setOnClickListener(this)
         }
 

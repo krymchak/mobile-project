@@ -1,5 +1,6 @@
 package com.example.mobilneprojekt
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,21 +11,12 @@ import com.example.mobilneprojekt.services.HistoryEntryDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import com.squareup.picasso.Picasso
 
-class HistoryAdapter(values: List<HistoryEntryDTO>, clickListener: ClickListener): RecyclerView.Adapter<HistoryAdapter.ViewHolder>()
+class HistoryAdapter(private var values: List<HistoryEntryDTO>, private var clickListener: ClickListener, private var context: Context): RecyclerView.Adapter<HistoryAdapter.ViewHolder>()
 {
-
-    private var values: List<HistoryEntryDTO>
-    private var clickListener: ClickListener
-
-    init
-    {
-        this.values = values
-        this.clickListener = clickListener
-    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.vehicle.text = values[position].name
         holder.date.text = values[position].date
-        holder.price.text = "${values[position].price}zł"
+        holder.price.text = context.getString(R.string.priceFormat, values[position].price)
 
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
         Picasso.get().load(url).centerCrop().fit().into(holder.image)

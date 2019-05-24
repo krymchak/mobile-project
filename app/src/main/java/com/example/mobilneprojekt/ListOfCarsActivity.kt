@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
+import android.widget.Toast
 import com.example.mobilneprojekt.services.CarDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import com.google.gson.Gson
@@ -36,7 +37,7 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     private var listOfCars = ArrayList<CarDTO>()
     private lateinit var adapter: Adapter
     private var numberOfNewActivity = 2
-    private lateinit var token : String
+    private lateinit var token: String
     private var category: Array<String> = arrayOf()
     private var size = 0
     private var minPrice = 0
@@ -68,7 +69,7 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         val recyclerView = findViewById<RecyclerView>(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(this)
         val context = this
-        adapter = Adapter(emptyList(),object : Adapter.ClickListener {
+        adapter = Adapter(emptyList(), object : Adapter.ClickListener {
             override fun onItemClick(position: Int) {
                 val intent = Intent(context, DetailInfoCarActivity::class.java)
                 intent.putExtra("id", listOfCars[position].id)
@@ -81,9 +82,9 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                 intent.putExtra("price", listOfCars[position].price.toString())
                 intent.putExtra("image", listOfCars[position].image)
                 numberOfNewActivity = 2
-                startActivityForResult(intent,2)
+                startActivityForResult(intent, 2)
             }
-        })
+        }, this)
         recyclerView.adapter = adapter
         swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.pullToRefresh).apply {
             setOnRefreshListener {
@@ -103,11 +104,12 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     override fun onBackPressed() {
+        // On back pressed close drawer or do nothing
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            Toast.makeText(this, "Aby się wylogować wciśnij wyloguj w menu", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -118,7 +120,7 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when(requestCode) {
+        when (requestCode) {
             REQUEST_TAKE_PHOTO -> {
                 Log.d("ar", "REQUEST_TAKE_PHOTO returned")
                 if (resultCode == RESULT_OK && data != null) {
@@ -174,15 +176,14 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             R.id.map -> {
                 val intent = Intent(this, MapActivity::class.java)
                 intent.putExtra("size", listOfCars.size)
-                var json : String
-                for (i in 0 until listOfCars.size)
-                {
+                var json: String
+                for (i in 0 until listOfCars.size) {
                     json = Gson().toJson(listOfCars[i])
                     intent.putExtra(i.toString(), json)
                 }
                 numberOfNewActivity = 3
 
-                startActivityForResult(intent,3)
+                startActivityForResult(intent, 3)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -229,14 +230,14 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     private fun logout() {
-        with (preferences.edit()) {
+        with(preferences.edit()) {
             putString("token", "")
             apply()
         }
         finish()
     }
 
-    private fun filter () {
+    private fun filter() {
         val intent = Intent(this, FilterActivity::class.java)
         intent.putExtra("category", category)
         intent.putExtra("size", size)
@@ -250,7 +251,7 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         for (j in 0 until category.size) {
             var i = 0
             while (i < listOfCars.size) {
-                if(listOfCars[i].category == category[j]) {
+                if (listOfCars[i].category == category[j]) {
                     listOfCars.removeAt(i)
                     i--
                 }
@@ -262,7 +263,7 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     private fun filterBySize(size: Int) {
         var i = 0
         while (i < listOfCars.size) {
-            if(listOfCars[i].seats < size) {
+            if (listOfCars[i].seats < size) {
                 listOfCars.removeAt(i)
                 i--
             }
@@ -273,7 +274,7 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     private fun filterByPrice(minPrice: Int, maxPrice: Int) {
         var i = 0
         while (i < listOfCars.size) {
-            if(listOfCars[i].price < minPrice.toFloat() || listOfCars[i].price > maxPrice) {
+            if (listOfCars[i].price < minPrice.toFloat() || listOfCars[i].price > maxPrice) {
                 listOfCars.removeAt(i)
                 i--
             }

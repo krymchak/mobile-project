@@ -2,7 +2,6 @@ package com.example.mobilneprojekt
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.widget.*
 import kotlinx.android.synthetic.main.filter_activity.*
@@ -12,14 +11,13 @@ import java.lang.Integer.MAX_VALUE
 class FilterActivity : AppCompatActivity()
 {
 
-    val sizes = arrayOf(2,4,5,7,9,22)
-    val types = arrayOf("A", "B", "C", "D")
+    private val types = arrayOf("A", "B", "C", "D")
 
     var size = 40
-    var uncheckedTypes = ArrayList<String>()
+    private var uncheckedTypes = ArrayList<String>()
 
-    var minPrice = 0
-    var maxPrice = MAX_VALUE
+    private var minPrice = 0
+    private var maxPrice = MAX_VALUE
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -75,7 +73,7 @@ class FilterActivity : AppCompatActivity()
             max.setText(maxPrice.toString(), TextView.BufferType.EDITABLE)
         }
 
-        spinner.setSelection(getIndex(spinner, size.toString()));
+        spinner.setSelection(getIndex(spinner, size.toString()))
 
     }
 
@@ -127,8 +125,8 @@ class FilterActivity : AppCompatActivity()
         uncheckedTypes.clear()
         for (i in 0 until types.size)
         {
-            val ID = types[i]
-            val resID = resources.getIdentifier("type$ID", "id", packageName)
+            val id = types[i]
+            val resID = resources.getIdentifier("type$id", "id", packageName)
             val checkBox = findViewById<CheckBox>(resID)
             if (!checkBox.isChecked)
             {

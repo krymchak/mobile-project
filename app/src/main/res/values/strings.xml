@@ -28,7 +28,6 @@
     <string name="navigation_drawer_open">Otwórz nawigacje</string>
     <string name="navigation_drawer_close">Zamknij nawigacje</string>
     <string name="nav_header_title">Mobilne projekt zespołowy</string>
-    <string name="nav_header_desc">Nagłówek</string>
 
     <string name="menu_rented">Wynajęty pojazdy</string>
     <string name="menu_add">Dodaj pojazd</string>
