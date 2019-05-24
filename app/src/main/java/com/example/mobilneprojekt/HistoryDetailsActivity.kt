@@ -43,19 +43,18 @@ class HistoryDetailsActivity : AppCompatActivity() {
             )
             val builder = LatLngBounds.Builder()
             builder.include(from)
-            val bounds = builder.build()
-            val cu = CameraUpdateFactory.newLatLngBounds(bounds, 300, 300, 0)
-            googleMap.moveCamera(cu)
             googleMap.uiSettings.isMapToolbarEnabled = false
             googleMap.uiSettings.setAllGesturesEnabled(false)
             googleMap.setOnMarkerClickListener { true }
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(from, 12f))
+
         }
 
     }
 
     private fun showItem() {
         val url = "${ServiceBuilder.getUrl()}${intent.getStringExtra("image")}"
-        Picasso.get().load(url).centerCrop().fit().into(imageView)
+        Picasso.get().load(url).placeholder(R.drawable.load).centerCrop().fit().into(imageView)
         vname.text = intent.getStringExtra("name")
         totalTime.text = intent.getStringExtra("totalTime")
         price.text = String.format("%.2fzł", intent.getFloatExtra("price", 0.0f))

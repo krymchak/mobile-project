@@ -8,8 +8,7 @@ import kotlinx.android.synthetic.main.filter_activity.*
 import java.lang.Integer.MAX_VALUE
 
 
-class FilterActivity : AppCompatActivity()
-{
+class FilterActivity : AppCompatActivity() {
 
     private val types = arrayOf("A", "B", "C", "D")
 
@@ -20,16 +19,19 @@ class FilterActivity : AppCompatActivity()
     private var maxPrice = MAX_VALUE
 
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.filter_activity)
 
         setData()
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, itemSelected: View, selectedItemPosition: Int, selectedId: Long)
-            {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                itemSelected: View,
+                selectedItemPosition: Int,
+                selectedId: Long
+            ) {
                 val choose = resources.getStringArray(R.array.seats)
                 size = choose[selectedItemPosition].toInt()
             }
@@ -38,23 +40,18 @@ class FilterActivity : AppCompatActivity()
         }
     }
 
-    private fun setData()
-    {
+    private fun setData() {
         val array = intent.getStringArrayExtra("category")
-        for (i in 0 until array.size)
-        {
+        for (i in 0 until array.size) {
             uncheckedTypes.add(array[i])
         }
         size = intent.getIntExtra("size", 40)
-        minPrice= intent.getIntExtra("minPrice",0)
-        maxPrice= intent.getIntExtra("maxPrice",MAX_VALUE)
+        minPrice = intent.getIntExtra("minPrice", 0)
+        maxPrice = intent.getIntExtra("maxPrice", MAX_VALUE)
 
-        for (i in 0 until types.size)
-        {
-            for (j in 0 until uncheckedTypes.size)
-            {
-                if (types[i] == uncheckedTypes[j])
-                {
+        for (i in 0 until types.size) {
+            for (j in 0 until uncheckedTypes.size) {
+                if (types[i] == uncheckedTypes[j]) {
                     val id = types[i]
                     val resID = resources.getIdentifier("type$id", "id", packageName)
                     val checkBox = findViewById<CheckBox>(resID)
@@ -64,11 +61,11 @@ class FilterActivity : AppCompatActivity()
 
         }
 
-        if (minPrice!=0) {
+        if (minPrice != 0) {
             val min = findViewById<EditText>(R.id.min)
             min.setText(minPrice.toString(), TextView.BufferType.EDITABLE)
         }
-        if (maxPrice!= MAX_VALUE) {
+        if (maxPrice != MAX_VALUE) {
             val max = findViewById<EditText>(R.id.max)
             max.setText(maxPrice.toString(), TextView.BufferType.EDITABLE)
         }
@@ -89,8 +86,7 @@ class FilterActivity : AppCompatActivity()
         return index
     }
 
-    fun onClick(v: View)
-    {
+    fun onClick(v: View) {
         checkType()
         borderOfPrice()
 
@@ -104,32 +100,27 @@ class FilterActivity : AppCompatActivity()
         finish()
     }
 
-    private fun borderOfPrice()
-    {
+    private fun borderOfPrice() {
         val min = findViewById<EditText>(R.id.min)
         val minValue = min.text.toString()
-        if(minValue.trim().isNotEmpty()) {
+        if (minValue.trim().isNotEmpty()) {
             minPrice = minValue.toInt()
         }
 
         val max = findViewById<EditText>(R.id.max)
         val maxValue = max.text.toString()
-        if(maxValue.trim().isNotEmpty())
-        {
+        if (maxValue.trim().isNotEmpty()) {
             maxPrice = maxValue.toInt()
         }
     }
 
-    private fun checkType ()
-    {
+    private fun checkType() {
         uncheckedTypes.clear()
-        for (i in 0 until types.size)
-        {
+        for (i in 0 until types.size) {
             val id = types[i]
             val resID = resources.getIdentifier("type$id", "id", packageName)
             val checkBox = findViewById<CheckBox>(resID)
-            if (!checkBox.isChecked)
-            {
+            if (!checkBox.isChecked) {
                 uncheckedTypes.add(types[i])
             }
 

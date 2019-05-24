@@ -41,7 +41,7 @@ class ReturnCarActivity : AppCompatActivity() {
                     setContentView(R.layout.detail_info_car)
                     val image = findViewById<ImageView>(R.id.imageView4)
                     val url = "${ServiceBuilder.getUrl()}${body.image}"
-                    Picasso.get().load(url).centerCrop().fit().into(image)
+                    Picasso.get().load(url).placeholder(R.drawable.load).centerCrop().fit().into(image)
                     findViewById<TextView>(R.id.name).text = body.name
                     findViewById<TextView>(R.id.category).text = body.category
                     findViewById<TextView>(R.id.year).text = body.year

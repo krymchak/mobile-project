@@ -70,7 +70,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/type"
+                android:id="@+id/typeB"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"

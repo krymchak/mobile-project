@@ -19,7 +19,7 @@ class HistoryAdapter(private var values: List<HistoryEntryDTO>, private var clic
         holder.price.text = context.getString(R.string.priceFormat, values[position].price)
 
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
-        Picasso.get().load(url).centerCrop().fit().into(holder.image)
+        Picasso.get().load(url).placeholder(R.drawable.load).centerCrop().fit().into(holder.image)
 
     }
 

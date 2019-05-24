@@ -19,7 +19,7 @@ class Adapter(private var values: List<CarDTO>, private var clickListener: Click
         holder.type.text = values[position].category
         holder.price.text = context.getString(R.string.priceFormat, values[position].price)
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
-        Picasso.get().load(url).centerCrop().fit().into(holder.image)
+        Picasso.get().load(url).placeholder(R.drawable.load).centerCrop().fit().into(holder.image)
     }
 
     override fun getItemCount(): Int {
@@ -34,7 +34,7 @@ class Adapter(private var values: List<CarDTO>, private var clickListener: Click
     class ViewHolder(view: View, private var clickListener: ClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener
     {
         var name: TextView = view.findViewById(R.id.name)
-        var type : TextView = view.findViewById(R.id.type)
+        var type : TextView = view.findViewById(R.id.typeB)
         var price: TextView = view.findViewById(R.id.price)
         var image: ImageView = view.findViewById(R.id.imageView2)
         init
