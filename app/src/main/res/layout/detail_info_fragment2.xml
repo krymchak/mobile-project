@@ -5,92 +5,96 @@
     android:layout_height="match_parent"
 android:background="@drawable/background">
 
-    <LinearLayout
-            android:orientation="vertical"
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/whites">
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="30sp" />
-        <TextView
-                android:text="0$"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/price" android:layout_weight="1.2"
-                android:padding="20dp" android:gravity="right" android:textColor="@color/colorPrimaryDark"
-                android:textSize="20sp"/>
+            android:layout_height="match_parent">
         <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:layout_weight="1" android:padding="10dp"
-        android:background="@drawable/rounded_item">
-            <LinearLayout
-                    android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:background="@color/whites">
+
+            <TextView
+                    android:id="@+id/name"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:layout_weight="1">
-                <TextView
-                        android:text="Kategoria"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-                <TextView
-                        android:text="rok"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/textView" android:layout_weight="1"/>
-                <TextView
-                        android:text="DMC"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-                <TextView
-                        android:text="Liczba miejsc"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-                <TextView
-                        android:text="przebieg"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-            <LinearLayout
-                    android:orientation="vertical"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="30sp"/>
+            <TextView
+                    android:text="0$"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:layout_weight="1">
-                <TextView
-                        android:text="TextView"
+                    android:layout_height="match_parent" android:id="@+id/price" android:layout_weight="1.2"
+                    android:padding="20dp" android:gravity="right" android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_weight="1" android:padding="10dp"
+                    android:background="@drawable/rounded_item">
+                <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/category" android:layout_weight="1"/>
-                <TextView
-                        android:text="TextView"
+                        android:layout_height="match_parent" android:layout_weight="1">
+                    <TextView
+                            android:text="Kategoria"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"/>
+                    <TextView
+                            android:text="rok"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" android:id="@+id/textView" android:layout_weight="1"/>
+                    <TextView
+                            android:text="DMC"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"/>
+                    <TextView
+                            android:text="Liczba miejsc"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"/>
+                    <TextView
+                            android:text="przebieg"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:layout_weight="1" android:id="@+id/year"/>
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/dmc" android:layout_weight="1"/>
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/seats" android:layout_weight="1"/>
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:id="@+id/mileage" android:layout_weight="1"/>
+                        android:layout_height="match_parent" android:layout_weight="1">
+                    <TextView
+                            android:text="TextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" android:id="@+id/category" android:layout_weight="1"/>
+                    <TextView
+                            android:text="TextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" android:layout_weight="1" android:id="@+id/year"/>
+                    <TextView
+                            android:text="TextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" android:id="@+id/dmc" android:layout_weight="1"/>
+                    <TextView
+                            android:text="TextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" android:id="@+id/seats" android:layout_weight="1"/>
+                    <TextView
+                            android:text="TextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" android:id="@+id/mileage" android:layout_weight="1"/>
+                </LinearLayout>
             </LinearLayout>
+            <Button
+                    android:background="@drawable/rounded_button"
+                    android:text="Zarezerwowac"
+                    android:layout_margin="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/button2" android:layout_weight="1.5"
+                    android:onClick="rent"/>
         </LinearLayout>
-        <Button
-                android:background="@drawable/rounded_button"
-                android:text="Zarezerwowac"
-                android:layout_margin="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/button2" android:layout_weight="1.5"
-                android:onClick="rent"/>
-    </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
