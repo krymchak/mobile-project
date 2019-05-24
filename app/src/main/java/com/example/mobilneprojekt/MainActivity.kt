@@ -91,12 +91,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        showLoginLayout()
         preferences = getSharedPreferences("com.herokuapp.mobilne-projekt", Context.MODE_PRIVATE)
         if (preferences.getString("token", "") != "") {
             reroute()
             return
         }
-        showLoginLayout()
     }
 
     override fun onBackPressed() {
