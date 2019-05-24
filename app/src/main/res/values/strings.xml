@@ -34,4 +34,14 @@
     <string name="menu_history">Historia</string>
     <string name="menu_my">Moje pojazdy</string>
     <string name="menu_logout">Wyloguj</string>
+    <string name="appInfo">Mobilne projekt to projekt napisany na zajęcia \"Aplikacje mobilne\" w semestrze letnim 2018/2019.\n
+        Autorzy:\n
+        Jarosław Pokropiński\n
+        Rafał Marcin Młodzieniak\n
+        Veranika Krymchak\n
+        Mykola Medynskyi\n
+        Andrzej Antolak
+    </string>
+    <string name="appInformation">Informacje o aplikacji</string>
+    <string name="rented">Wynajęty</string>
 </resources>

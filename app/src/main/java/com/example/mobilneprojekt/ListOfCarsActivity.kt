@@ -219,6 +219,12 @@ class ListOfCarsActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                     startActivity(this)
                 }
             }
+            R.id.nav_info -> {
+                Log.v("click", "info")
+                Intent(this, AppInfoActivity::class.java).apply {
+                    startActivity(this)
+                }
+            }
             R.id.nav_logout -> {
                 Log.v("click", "logout")
                 logout()

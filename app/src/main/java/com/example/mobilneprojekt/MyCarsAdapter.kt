@@ -9,11 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.mobilneprojekt.services.CarDTO
+import com.example.mobilneprojekt.services.CarExtDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import com.squareup.picasso.Picasso
 
 class MyCarsAdapter(
-    private var values: List<CarDTO>,
+    private var values: List<CarExtDTO>,
     private var clickListener: ClickListener,
     private var context: Context
 ) : RecyclerView.Adapter<MyCarsAdapter.ViewHolder>() {
@@ -24,6 +25,8 @@ class MyCarsAdapter(
         holder.price.text = context.getString(R.string.priceFormat, values[position].price)
         val url = "${ServiceBuilder.getUrl()}${values[position].image}"
         Picasso.get().load(url).centerCrop().fit().into(holder.image)
+
+        holder.rentedView.text = if (values[position].isRented) context.getString(R.string.rented) else ""
     }
 
     override fun getItemCount(): Int {
@@ -41,6 +44,7 @@ class MyCarsAdapter(
         var type: TextView = view.findViewById(R.id.type)
         var price: TextView = view.findViewById(R.id.price)
         var image: ImageView = view.findViewById(R.id.imageView2)
+        var rentedView: TextView = view.findViewById(R.id.rented)
 
         init {
             view.setOnClickListener(this)
@@ -52,7 +56,7 @@ class MyCarsAdapter(
         }
     }
 
-    fun update(results: List<CarDTO>) {
+    fun update(results: List<CarExtDTO>) {
         values = results
         notifyDataSetChanged()
     }

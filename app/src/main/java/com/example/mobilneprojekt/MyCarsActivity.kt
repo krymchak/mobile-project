@@ -8,7 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import com.example.mobilneprojekt.services.CarDTO
+import com.example.mobilneprojekt.services.CarExtDTO
 import com.example.mobilneprojekt.services.ServiceBuilder
 import retrofit2.Call
 import retrofit2.Callback
@@ -53,15 +53,15 @@ class MyCarsActivity : AppCompatActivity() {
             finish()
             return
         }
-        ServiceBuilder.getRentalService().getMyCars(token).enqueue(object : Callback<List<CarDTO>> {
-            override fun onFailure(call: Call<List<CarDTO>>, t: Throwable) {
+        ServiceBuilder.getRentalService().getMyCars(token).enqueue(object : Callback<List<CarExtDTO>> {
+            override fun onFailure(call: Call<List<CarExtDTO>>, t: Throwable) {
                 Log.e("rest", t.message)
                 swipeRefreshLayout.isRefreshing = false
             }
 
-            override fun onResponse(call: Call<List<CarDTO>>, response: Response<List<CarDTO>>) {
+            override fun onResponse(call: Call<List<CarExtDTO>>, response: Response<List<CarExtDTO>>) {
                 swipeRefreshLayout.isRefreshing = false
-                val list: List<CarDTO> = response.body() ?: emptyList()
+                val list: List<CarExtDTO> = response.body() ?: emptyList()
                 adapter.update(list)
             }
         })
