@@ -43,12 +43,11 @@ class HistoryDetailsActivity : AppCompatActivity() {
             )
             val builder = LatLngBounds.Builder()
             builder.include(from)
-            val bounds = builder.build()
-            val cu = CameraUpdateFactory.newLatLngBounds(bounds, 300, 300, 0)
-            googleMap.moveCamera(cu)
             googleMap.uiSettings.isMapToolbarEnabled = false
             googleMap.uiSettings.setAllGesturesEnabled(false)
             googleMap.setOnMarkerClickListener { true }
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(from, 12f))
+
         }
 
     }
