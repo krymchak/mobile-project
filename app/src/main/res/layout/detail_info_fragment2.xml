@@ -2,12 +2,14 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+android:background="@drawable/background">
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/whites">
 
         <TextView
             android:id="@+id/name"
@@ -26,7 +28,8 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:layout_weight="1" android:padding="10dp">
+                android:layout_height="match_parent" android:layout_weight="1" android:padding="10dp"
+        android:background="@drawable/rounded_item">
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -83,7 +86,9 @@
             </LinearLayout>
         </LinearLayout>
         <Button
+                android:background="@drawable/rounded_button"
                 android:text="Zarezerwowac"
+                android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" android:id="@+id/button2" android:layout_weight="1.5"
                 android:onClick="rent"/>
