@@ -20,26 +20,26 @@
                     android:text="A"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                android:layout_weight="1"
-                    android:checked="true"/>
+                    android:layout_weight="1"
+                    android:checked="true" android:id="@+id/typeA"/>
             <CheckBox
                     android:text="B"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                android:layout_weight="1"
-                    android:checked="true"/>
+                    android:layout_weight="1"
+                    android:checked="true" android:id="@+id/typeB"/>
             <CheckBox
                     android:text="C"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                android:layout_weight="1"
-                    android:checked="true"/>
+                    android:layout_weight="1"
+                    android:checked="true" android:id="@+id/typeC"/>
             <CheckBox
                     android:text="D"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                android:layout_weight="1"
-                    android:checked="true"/>
+                    android:layout_weight="1"
+                    android:checked="true" android:id="@+id/typeD"/>
         </LinearLayout>
         <TextView
                 android:text="Minimalna liczba miejsc"

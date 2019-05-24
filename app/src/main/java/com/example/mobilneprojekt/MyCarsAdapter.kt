@@ -38,7 +38,7 @@ class MyCarsAdapter(
     class ViewHolder(view: View, private var clickListener: ClickListener) : RecyclerView.ViewHolder(view),
         View.OnClickListener {
         var name: TextView = view.findViewById(R.id.name)
-        var type: TextView = view.findViewById(R.id.type)
+        var type: TextView = view.findViewById(R.id.typeB)
         var price: TextView = view.findViewById(R.id.price)
         var image: ImageView = view.findViewById(R.id.imageView2)
 

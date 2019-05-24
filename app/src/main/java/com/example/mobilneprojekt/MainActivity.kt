@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                 password.text.toString()
             )
             val call = ServiceBuilder.getUserService().register(user)
+            val context : Context = this
             call.enqueue(object : Callback<String> {
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     Log.e("OCL", "Fail to register User!")
@@ -53,12 +54,17 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onResponse(call: Call<String>, response: Response<String>) {
                     Log.d("OCL", "Success")
-                    showLoginLayout()
-                    with(preferences.edit()) {
-                        putString("token", response.body())
-                        apply()
+                    if (response.isSuccessful) {
+                        showLoginLayout()
+                        with(preferences.edit()) {
+                            putString("token", response.body())
+                            apply()
+                        }
+                        reroute()
                     }
-                    reroute()
+                    else {
+                        Toast.makeText(context, "Fail to register User!", Toast.LENGTH_SHORT).show()
+                    }
                 }
             })
         }
