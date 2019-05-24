@@ -54,7 +54,7 @@ class HistoryDetailsActivity : AppCompatActivity() {
 
     private fun showItem() {
         val url = "${ServiceBuilder.getUrl()}${intent.getStringExtra("image")}"
-        Picasso.get().load(url).placeholder(R.drawable.load).centerCrop().fit().into(imageView)
+        Picasso.get().load(url).centerCrop().fit().into(imageView)
         vname.text = intent.getStringExtra("name")
         totalTime.text = intent.getStringExtra("totalTime")
         price.text = String.format("%.2fzł", intent.getFloatExtra("price", 0.0f))
